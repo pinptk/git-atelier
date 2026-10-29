@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#f6f7f4">
+  <meta name="description" content="ブランチやコミットを動かしてGitを学ぶ、インタラクティブな日本語シミュレーター。">
+  <title>Gitキャンプ</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="git-engine.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <nav class="workspace-bar" aria-label="ワークスペース"><div id="workspace-tabs" class="workspace-tabs" role="tablist" aria-label="リポジトリのワークスペース"></div><span class="workspace-note"><span data-icon="layers"></span> フォークは別タブに表示</span></nav>
+  <main class="app-layout">
+    <section class="main-column" aria-label="Gitの学習キャンバス">
+      <div class="page-heading">
+        <div class="page-heading-row"><h1>Gitキャンプ</h1><div class="header-actions"><button class="small-button" id="help-button" aria-label="使い方を開く" title="使い方"><span data-icon="help"></span>ヘルプ</button><button class="small-button" id="reset-button"><span data-icon="reset"></span>はじめから</button></div></div>
+        <div class="page-heading-meta"><p>操作を選び、対象のリポジトリやブランチを指定してください。</p><span class="save-status" id="save-status"><i></i> このブラウザに自動保存</span></div>
+      </div>
+      <button class="guide-restore" id="guide-show" aria-controls="tutorial-guide" aria-expanded="false" hidden><span data-icon="book"></span>手順を再表示</button>
+      <section class="guide-card" id="tutorial-guide" aria-label="おすすめの学習手順">
+        <div class="guide-header">
+          <div class="guide-intro"><span class="guide-spark" data-icon="book"></span><div><span class="guide-kicker">チュートリアル · はじめの手順</span><strong id="guide-title">取得・切替・統合の手順</strong><span id="guide-description">フェッチ・チェックアウト・プル</span></div></div>
+          <div class="guide-actions"><button class="text-button" id="scenario-button" title="開始地点を選んで、新しい練習を追加">開始地点を選び直す <span aria-hidden="true">↗</span></button><button class="guide-hide" id="guide-hide" aria-controls="tutorial-guide" aria-expanded="true">非表示</button></div>
+        </div>
+        <div class="guide-steps" id="guide-steps"></div>
+      </section>
+      <div class="canvas-toolbar"><div class="section-caption"><span class="live-dot"></span> REPOSITORY MAP <span id="workspace-label"></span></div><div class="legend"><span><i class="legend-dot remote-color"></i>リモート</span><span><i class="legend-dot local-color"></i>ローカル</span><span><i class="legend-dot tracking-color"></i>取得済みの参照</span></div></div>
+      <section class="repository-map" id="repository-map" aria-label="リモートとローカルのリポジトリ"><div id="repositories" class="repositories"></div><svg id="flow-overlay" class="flow-overlay" aria-hidden="true"></svg></section>
+      <div class="selection-bar" id="selection-bar" aria-live="polite"></div>
+      <section class="activity-panel"><div class="panel-header"><div><span data-icon="terminal"></span><h2>操作ログ</h2><span class="count-badge" id="log-count">0</span></div><div class="history-actions"><button class="text-button" id="undo-button" disabled><span data-icon="undo"></span>1つ戻す</button><button class="text-button" id="redo-button" disabled>やり直す<span data-icon="redo"></span></button></div></div><div id="activity-log" class="activity-log" aria-live="polite" aria-relevant="additions"></div></section>
+      <footer class="main-footer"><span>Gitキャンプ <i>·</i> 学習用モデル <button class="text-button" id="model-button">モデルについて <span aria-hidden="true">↗</span></button></span></footer>
+    </section>
+    <aside class="operations-sidebar" id="toolbox" aria-label="Gitの操作"><button class="icon-button mobile-only" id="mobile-tool-close" aria-label="操作メニューを閉じる" data-icon="close"></button><div class="sidebar-heading"><span>TOOLBOX</span><span data-icon="sliders"></span></div><h2 id="toolbox-title">Gitの操作</h2><p class="sidebar-description">操作を選ぶと、行き先を指定できます。</p><div id="operation-buttons"></div><div class="sidebar-tip"><span data-icon="bulb"></span><strong>選択と実行</strong><p>ブランチをクリックすると選択状態に。変更は操作の「実行」で確定します。</p></div><button class="help-link" id="glossary-button"><span data-icon="book"></span> Gitのことばを確認 <span>↗</span></button></aside>
+  </main>
+  <div id="mobile-tool-backdrop" class="mobile-tool-backdrop" hidden></div>
+  <nav class="mobile-dock" aria-label="スマホの操作ナビゲーション"><button id="mobile-remote"><span data-icon="cloud"></span><span>リモート</span></button><button id="mobile-local"><span data-icon="monitor"></span><span>ローカル</span></button><button id="mobile-tools" aria-controls="toolbox" aria-expanded="false"><span data-icon="sliders"></span><span>操作する</span><span class="dock-plus" aria-hidden="true">＋</span></button></nav>
+  <section id="operation-panel" class="operation-panel" role="dialog" aria-modal="false" aria-labelledby="operation-title" hidden></section>
+  <div id="modal-backdrop" class="modal-backdrop" hidden><section id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1"></section></div>
+  <div id="toast" class="toast" role="status" hidden></div>
+</body>
+</html>

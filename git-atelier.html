@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#f6f7f4">
+  <meta name="description" content="ブランチやコミットを動かしてGitを学ぶ、インタラクティブな日本語シミュレーター。">
+  <title>Gitキャンプ</title>
+  <style>
+:root{--bg:#f6f7f4;--paper:#fff;--ink:#253a36;--muted:#85918b;--line:#e4e9e3;--green:#16866c;--green-dark:#11634f;--mint:#e9f5ee;--blue:#537fa9;--purple:#9a7abb;--font:'DM Sans','Noto Sans JP',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--mono:'Cascadia Code','SFMono-Regular',Consolas,monospace}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:13px/1.65 var(--font)}button,input,textarea,select{font:inherit}button,a,input,textarea,select{-webkit-tap-highlight-color:transparent}button{cursor:pointer;color:inherit}button:disabled{cursor:not-allowed;opacity:.4}button{transition:background .15s,border-color .15s,box-shadow .15s,transform .15s}button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:3px solid #46ad9770;outline-offset:3px}button:hover:not(:disabled){filter:brightness(.985)}a{color:var(--green);text-decoration:none}svg.icon{height:18px;width:18px;display:inline-block;vertical-align:middle;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}button span[data-icon]{display:inline-flex;align-items:center}h1,h2,h3,p{margin:0}button{border:0}button[hidden],[hidden]{display:none!important}.app-header{height:79px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:25px;padding:0 37px}.brand{display:flex;align-items:center;gap:10px;color:var(--ink);font-size:26px;font-weight:700;letter-spacing:-1.4px}.brand-mark{display:grid;place-items:center;width:33px;height:33px;border-radius:10px;background:var(--green);color:white;transform:rotate(-8deg)}.brand-mark svg{width:23px;height:23px;transform:rotate(8deg)}.brand-light{font-weight:450}.brand-dot{color:var(--green)}.header-divider{height:19px;width:1px;background:var(--line)}.header-description{font-size:11px;color:#6e7b73;letter-spacing:.05em}.header-actions{margin-left:auto;display:flex;align-items:center;gap:18px}.sandbox-badge{font-size:10px;color:#708578;display:flex;align-items:center;gap:7px}.sandbox-badge i,.save-status i{height:5px;width:5px;border-radius:50%;background:#72a98d}.icon-button{display:grid;place-items:center;background:transparent;padding:7px;color:#87928a;border-radius:7px}.small-button{display:flex;align-items:center;gap:7px;font-size:11px;background:white;border:1px solid var(--line);border-radius:7px;padding:7px 11px}.small-button svg{width:14px;height:14px}.workspace-bar{height:53px;border-bottom:1px solid var(--line);display:flex;align-items:stretch;padding:0 37px;background:#f0f3ed;gap:15px}.workspace-tabs{display:flex;overflow:auto;gap:6px;align-items:stretch;scrollbar-width:thin;max-width:calc(100% - 245px)}.workspace-tab{border-radius:7px 7px 0 0;align-self:flex-end;display:flex;align-items:center;gap:9px;background:transparent;white-space:nowrap;color:#7b887e;font-size:12px;padding:11px 17px;height:42px;border:1px solid transparent;border-bottom:none;position:relative}.workspace-tab[aria-selected=true]{background:var(--bg);color:var(--green-dark);border-color:var(--line);font-weight:600}.workspace-tab[aria-selected=true]:after{position:absolute;bottom:-1px;left:0;right:0;content:'';height:2px;background:var(--bg)}.workspace-tab svg{width:15px;height:15px}.fork-tag{font-size:8px;border:1px solid #d2e0d5;padding:0 5px;border-radius:4px;color:var(--green)}.workspace-note{font-size:10px;color:#96a093;margin-left:auto;display:flex;align-items:center;gap:7px;white-space:nowrap}.workspace-note svg{width:13px;height:13px}.app-layout{display:grid;grid-template-columns:minmax(0,1fr) 229px;min-height:calc(100vh - 132px)}.main-column{padding:34px 32px 15px 37px;min-width:0}.page-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:27px;gap:12px}.eyebrow{font-size:9px;color:var(--green);font-weight:700;letter-spacing:.15em;margin-bottom:7px}.eyebrow span{margin-left:12px;color:#a0aaa0;font-size:8px;font-weight:500;letter-spacing:.09em}h1{font-size:clamp(21px,2.1vw,31px);font-weight:650;letter-spacing:-.035em;line-height:1.5}h1>span{color:var(--green)}.page-heading p{font-size:11px;color:#859087;margin-top:7px;letter-spacing:.02em}.save-status{font-size:9px;color:#97a094;white-space:nowrap;display:flex;align-items:center;gap:6px;margin-top:8px}.guide-card{background:#edf4eb;border:1px solid #e0e9da;border-radius:10px;display:flex;align-items:center;gap:24px;padding:17px 19px;margin-bottom:30px}.guide-intro{display:flex;align-items:center;gap:11px;flex-shrink:0}.guide-spark{height:34px;width:34px;border-radius:50%;background:#e0edda;color:#719264;display:grid;place-items:center}.guide-intro strong{display:block;font-size:11px;font-weight:600}.guide-intro div>span{display:block;font-size:9px;color:#909c86;margin-top:2px}.guide-steps{display:flex;align-items:center;gap:14px;flex:1;justify-content:center}.guide-step{display:flex;align-items:center;gap:7px;color:#85957e;font-size:10px;white-space:nowrap;background:transparent;padding:0}.guide-step:hover{color:var(--green)}.guide-step .number{border:1px solid #ccd8c5;background:#f7faf4;display:grid;place-items:center;width:21px;height:21px;border-radius:50%;font-size:9px;color:#7e9175}.guide-step.done .number{background:var(--green);color:white;border-color:var(--green)}.guide-arrow{font-size:10px;color:#b1bca8}.text-button{background:transparent;color:#7c8c7b;font-size:10px;display:inline-flex;align-items:center;gap:5px;padding:3px 0;white-space:nowrap}.text-button:hover{color:var(--green)}.text-button svg{height:13px;width:13px}.guide-card>.text-button{font-size:9px}.canvas-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:10px}.section-caption{font-size:9px;letter-spacing:.13em;font-weight:600;display:flex;align-items:center;gap:7px;color:#7d8b7f}.section-caption>span:last-child{font-family:var(--font);font-size:9px;color:#9ca699;letter-spacing:0;font-weight:400;margin-left:7px}.live-dot{width:5px;height:5px;background:#79a78a;border-radius:50%}.legend{display:flex;gap:15px;color:#8f998e;font-size:9px}.legend>span{display:flex;align-items:center;gap:5px}.legend-dot{width:6px;height:6px;border-radius:50%;display:inline-block}.remote-color{background:var(--green)}.local-color{background:var(--blue)}.tracking-color{background:#fff;border:1px dashed #9ba69b}.repository-map{position:relative}.repositories{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:23px}.repo-card{border:1px solid #dce5db;border-radius:12px;background:white;overflow:hidden;min-width:0;transition:border-color .2s,box-shadow .2s;position:relative}.repo-card.local{border-color:#dce2e7}.repo-card.selected-repo{box-shadow:0 0 0 2px #52aa8d50}.repo-top{width:100%;display:flex;align-items:center;gap:11px;text-align:left;padding:20px 19px 15px;background:white;position:relative;z-index:1}.repo-icon{width:39px;height:39px;border-radius:11px;background:#ebf4ed;color:var(--green);display:grid;place-items:center}.repo-icon svg{width:22px;height:22px}.local .repo-icon{background:#edf2f7;color:var(--blue)}.repo-title-group{min-width:0}.repo-eyebrow{font-size:9px;color:#8e9b8d;letter-spacing:.06em;display:block}.repo-title{font-size:15px;font-weight:650;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:2px}.repo-top>.repo-badge{margin-left:auto;flex-shrink:0}.repo-badge{font-size:8px;color:#78917c;border:1px solid #dbe6dc;background:#f5f9f3;border-radius:4px;padding:1px 6px;font-family:var(--mono)}.local .repo-badge{background:#f4f7fb;border-color:#e0e7f1;color:#7d96ac}.repo-url{padding:0 20px 15px;font:9px var(--mono);color:#a2ada1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-bottom:1px solid #eef1eb;min-height:30px}.repo-url svg{width:11px;height:11px;margin-right:5px}.fork-parent{padding:8px 19px;background:#fafbf8;border-bottom:1px solid #edf0e9;font-size:9px;color:#84917f;display:flex;align-items:center;gap:6px}.fork-parent svg{height:12px;width:12px}.branches-section{padding:17px 17px 0;min-height:122px}.branches-heading{display:flex;align-items:center;justify-content:space-between;font-size:8px;letter-spacing:.12em;color:#a0aa9d;margin-bottom:10px}.branches-heading span{letter-spacing:0;color:#9ca797}.branch-list{display:flex;flex-wrap:wrap;gap:7px}.branch-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 8px;background:#f5f8f2;color:#648267;border:1px solid #e3eadd;border-radius:6px;font:10px var(--mono);max-width:100%;position:relative;min-height:30px}.branch-chip .branch-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:190px}.branch-chip svg{width:13px;height:13px}.local .branch-chip{color:#6584a2;background:#f3f7fb;border-color:#e0e8ef}.branch-chip.feature{color:#9576ad;background:#f8f4fb;border-color:#e9e0ef}.branch-chip.tracking{background:white;border-style:dashed;color:#8d998c;font-size:9px;padding:4px 7px;min-height:26px}.branch-chip.selected{outline:2px solid currentColor;outline-offset:2px;background:white}.branch-chip .head-pill{background:#e8e0f0;border-radius:3px;padding:1px 4px;font-size:7px;letter-spacing:.025em}.branch-chip:not(.feature) .head-pill{background:#e4edf5}.unpublished{width:4px;height:4px;border-radius:50%;background:#bb9fcf}.tracking-label{font-size:8px;color:#a4aca0;margin:11px 0 7px;display:flex;align-items:center;gap:5px}.tracking-label svg{height:10px;width:10px}.graph-heading{display:flex;align-items:center;justify-content:space-between;color:#a1aa9d;font-size:8px;letter-spacing:.1em;padding:0 20px;margin-top:14px}.graph-heading span:last-child{letter-spacing:0;font-size:8px}.commit-graph-wrap{overflow:auto;margin:4px 0 0;scrollbar-width:thin;background-image:radial-gradient(#e3e8df .7px,transparent .7px);background-size:15px 15px;min-height:221px;position:relative}.commit-graph{display:block;width:100%;min-width:310px;height:221px}.graph-edge{fill:none;stroke:#a5c7b5;stroke-width:2.2}.graph-edge.feature{stroke:#c4aed4}.graph-edge.tracking{stroke:#c7d0c6;stroke-dasharray:4 4}.local .graph-edge.main{stroke:#a4bbd1}.commit-node{cursor:pointer}.commit-node circle{fill:white;stroke:#6aab8c;stroke-width:2.5}.commit-node.feature circle{stroke:#aa8abe}.local .commit-node.main circle{stroke:#7d9ebd}.commit-node:hover circle{stroke-width:4}.commit-node .node-halo{stroke:none;fill:#16866c10}.commit-node.feature .node-halo{fill:#a17cbb10}.commit-id{font:8px var(--mono);fill:#8c9b8e}.commit-message{font:8px var(--font);fill:#a1ab9e}.lane-label{font:8px var(--mono);fill:#9aaa9a}.node-tip{font:8px var(--mono);fill:#50866a}.local .node-tip{fill:#6b8ca9}.node-tip.feature{fill:#a185b3}.graph-timeline{display:flex;justify-content:space-between;padding:7px 20px 13px;color:#a9b2a3;font-size:8px;border-bottom:1px solid #edf0e9}.repo-bottom{padding:13px 19px;display:flex;align-items:center;justify-content:space-between;gap:8px;color:#8f9c8b;font-size:9px;background:#fcfdfb;min-height:44px}.repo-bottom>span{display:flex;align-items:center;gap:5px;min-width:0}.repo-bottom svg{width:12px;height:12px}.repo-bottom .mono{color:#6f8a70;font-size:9px}.mono{font-family:var(--mono)}.repo-empty{min-height:425px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;text-align:center;padding:30px;color:#a1aca1;background-image:radial-gradient(#e2e8e3 .7px,transparent .7px);background-size:17px 17px}.repo-empty>svg{width:45px;height:45px;stroke-width:1;color:#a8bcac}.repo-empty strong{color:#7d917e;font-size:13px}.repo-empty p{font-size:10px;max-width:230px}.repo-empty button{margin-top:5px}.selection-bar{margin-top:13px;padding:11px 15px;border:1px solid #e4e9e0;border-radius:7px;display:flex;align-items:center;gap:9px;font-size:10px;background:#f0f3ed;min-height:44px;color:#8d9987}.selection-bar svg{width:13px;height:13px;color:#759a7d}.selection-bar strong{color:#65795f;font-weight:500}.selection-bar .selection-detail{margin-left:auto;font:9px var(--mono);color:#94a08e}.selection-bar .text-button{margin-left:auto}.activity-panel{margin-top:27px;border:1px solid var(--line);border-radius:10px;background:white;overflow:hidden}.panel-header{padding:13px 17px;border-bottom:1px solid #edf0e9;display:flex;align-items:center;justify-content:space-between}.panel-header>div{display:flex;align-items:center;gap:9px}.panel-header svg{color:#8ba08e;width:15px;height:15px}.panel-header h2{font-size:11px;font-weight:550}.count-badge{font:8px var(--mono);background:#f0f4ee;color:#91a08a;border-radius:4px;padding:1px 5px}.history-actions{gap:15px!important}.activity-log{max-height:202px;overflow:auto;scrollbar-width:thin}.log-entry{display:grid;grid-template-columns:42px 8px 1fr;gap:12px;padding:14px 17px;border-bottom:1px solid #f0f3ed}.log-entry:last-child{border-bottom:0}.log-time{font:8px var(--mono);color:#acb5a7;margin-top:4px}.log-dot{background:#70aa8a;border-radius:50%;width:5px;height:5px;margin-top:7px}.log-entry.error .log-dot{background:#cf9b72}.log-title{font-size:11px;font-weight:500;margin-bottom:3px}.log-detail{font-size:10px;color:#939e8d;line-height:1.8}.log-command{font:9px/1.6 var(--mono);margin-top:6px;color:#69836a;overflow-wrap:anywhere}.log-command:before{content:'$ ';color:#a1b09a}.main-footer{display:flex;justify-content:space-between;align-items:center;color:#a7afa1;font-size:8px;margin-top:23px;gap:12px}.main-footer>span:last-child{display:flex;align-items:center;gap:9px}.main-footer .text-button{font-size:8px;color:#98a58e}.main-footer i{font-style:normal;color:#bcc4b6}.operations-sidebar{border-left:1px solid var(--line);background:#fbfcf9;padding:30px 20px;min-width:0}.sidebar-heading{display:flex;align-items:center;justify-content:space-between;font-size:8px;letter-spacing:.15em;color:#96a68d;font-weight:600}.sidebar-heading svg{height:14px;width:14px}.operations-sidebar h2{font-size:17px;letter-spacing:-.04em;font-weight:600;margin-top:9px}.sidebar-description{font-size:9px;color:#9ba590;margin-top:6px;white-space:nowrap}.operation-group-label{margin:24px 0 9px;font-size:8px;letter-spacing:.12em;color:#a8b09f;display:flex;align-items:center;gap:8px}.operation-group-label:after{content:'';height:1px;background:#e9ede3;flex:1}.operation-button{display:flex;align-items:center;text-align:left;width:100%;border:1px solid #e4eadf;background:white;border-radius:8px;padding:10px 11px;margin-top:7px;gap:10px;position:relative}.operation-button:hover{border-color:#a2c5aa;box-shadow:0 2px 7px #5f7f5b0b;transform:translateY(-1px)}.operation-button.active{background:#eaf4e9;border-color:#9dc4a3}.operation-button>.op-icon{width:29px;height:29px;background:#f0f5ed;color:#7a9d76;border-radius:7px;display:grid;place-items:center;flex-shrink:0}.operation-button.sync>.op-icon{background:#e4f0e8;color:#4e9174}.operation-button .operation-label{font-size:11px;font-weight:550;line-height:1.4;display:block}.operation-button .operation-english{font:8px var(--mono);color:#a2ad99;display:block;margin-top:3px}.operation-button>.op-arrow{margin-left:auto;color:#b7c1ae;font-size:12px}.operation-button .github-badge{font-size:6px;letter-spacing:.02em;background:#f0edf5;color:#a79ab7;border-radius:3px;padding:2px 3px;position:absolute;top:5px;right:6px}.operation-button.compact{padding:8px 11px}.operation-button.compact>.op-icon{height:25px;width:29px}.operation-button.delete .op-icon{color:#bc9784;background:#f8f3ee}.sidebar-tip{margin-top:24px;padding:13px 12px;background:#f0f3eb;border:1px solid #e9eddf;border-radius:8px;position:relative}.sidebar-tip>svg{height:15px;width:15px;color:#90a377;margin-bottom:7px}.sidebar-tip strong{font-size:9px;display:block;font-weight:550;color:#829172}.sidebar-tip p{font-size:9px;color:#a3ad96;line-height:1.9;margin-top:5px}.help-link{background:transparent;padding:16px 0 0;display:flex;align-items:center;gap:7px;font-size:9px;color:#9ba88c;width:100%}.help-link svg{width:13px;height:13px}.help-link>span:last-child{margin-left:auto}.flow-overlay{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:4}.flow-dot{fill:var(--green);animation:flowDot .45s cubic-bezier(.65,0,.35,1) both}@keyframes flowDot{from{transform:translate(0,0);opacity:1}80%{opacity:1}to{transform:translate(var(--flow-dx),var(--flow-dy));opacity:0}}.pickable{cursor:crosshair!important}.branch-chip.pickable,.repo-top.pickable{box-shadow:inset 0 0 0 1px #b4d6a3;background-color:#f6fbf1}.pick-source{outline:2px solid #5b9e83!important;outline-offset:3px}.pick-target{outline:2px solid #b49ac6!important;outline-offset:3px}.operation-panel{position:fixed;right:247px;bottom:22px;width:375px;background:#fff;border:1px solid #d3dfd1;border-radius:13px;box-shadow:0 18px 70px #223a3030,0 2px 12px #223a3010;z-index:20;max-height:calc(100vh - 45px);overflow:auto;animation:panelIn .18s ease}.operation-panel-header{padding:19px 21px 12px;display:flex;align-items:center;justify-content:space-between}.operation-panel-header>div{display:flex;align-items:center;gap:9px}.operation-panel-header>div>svg{color:var(--green);height:19px;width:19px}.operation-panel h2{font-size:16px;font-weight:600}.operation-panel-header .icon-button{padding:3px}.operation-panel-description{font-size:11px;color:#8b9887;line-height:1.9;padding:0 21px 14px}.operation-panel-body{padding:0 21px 20px}.pick-fields{display:grid;gap:9px}.pick-field{border:1px solid #dfe7dc;border-radius:7px;padding:10px 12px;background:#fafcf8;text-align:left;display:flex;align-items:center;gap:9px;width:100%}.pick-field.current{border-color:#72ae8c;background:#f2f8ee;box-shadow:0 0 0 2px #72ae8c18}.pick-field .field-value{font-size:11px;display:block;overflow-wrap:anywhere;font-weight:500}.pick-field .field-placeholder{font-size:10px;color:#98a68e}.pick-field .field-info{min-width:0}.pick-field .field-check{margin-left:auto;color:#6d9b79;font-size:13px}.pick-between{text-align:center;font-size:10px;color:#a3b29b;line-height:1}.pick-hint{font-size:9px;color:#93a17f;background:#f1f5ec;border-radius:5px;padding:8px 10px;margin-top:11px;display:flex;gap:6px;align-items:flex-start}.pick-hint svg{height:13px;width:13px;flex-shrink:0}.op-form-field{margin-top:14px;display:block;font-size:10px;color:#819178}.op-form-field input,.op-form-field textarea,.op-form-field select{width:100%;display:block;margin-top:6px;padding:9px 10px;border:1px solid #dce5d6;border-radius:6px;background:#fff;color:var(--ink);font-size:11px;outline-offset:2px}.op-form-field textarea{resize:vertical;min-height:72px;font:10px/1.7 var(--mono)}.command-preview{display:block;background:#f5f7f1;border:1px solid #e8eddf;border-radius:5px;margin-top:14px;padding:9px 10px;font:9px/1.8 var(--mono);color:#7b936b;overflow-wrap:anywhere}.operation-panel-actions{display:flex;gap:10px;margin-top:15px}.primary-button{background:var(--green);color:white;border:1px solid var(--green);border-radius:6px;padding:10px 15px;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:11px;font-weight:500;min-height:37px}.primary-button:hover{background:var(--green-dark)}.primary-button svg{width:14px;height:14px}.secondary-button{background:#fff;border:1px solid #dfe6da;color:#85927a;border-radius:6px;padding:9px 13px;display:inline-flex;align-items:center;justify-content:center;gap:7px;font-size:11px}.danger-button{background:#b97462;border-color:#b97462}.operation-panel-actions .primary-button{flex:1}.operation-error{font-size:10px;line-height:1.8;color:#b06d52;margin-top:12px;background:#fbf2eb;padding:9px 11px;border-radius:5px}.cross-workspace-note{font-size:9px;color:#9a88ae;margin-top:10px;line-height:1.8}.operation-command-note{font-size:8px;color:#a0aa96;margin-top:5px}.modal-backdrop{position:fixed;inset:0;z-index:40;background:#253a3655;backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:25px}.modal{width:580px;max-width:100%;max-height:88vh;overflow:auto;background:#fff;border-radius:15px;border:1px solid #e1e7da;box-shadow:0 24px 100px #1a302a30;padding:27px 30px}.modal-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:19px;gap:12px}.modal h2{font-size:21px;letter-spacing:-.03em}.modal h3{font-size:12px;margin:19px 0 7px}.modal p,.modal li{font-size:12px;color:#87927e;line-height:2}.modal ol{padding-left:20px}.modal a{text-decoration:underline;text-underline-offset:3px}.modal code{font-family:var(--mono);font-size:11px;color:#6f8b67;background:#f2f6ed;border-radius:4px;padding:2px 4px}.modal-footer{display:flex;justify-content:flex-end;gap:9px;margin-top:23px}.modal-subtitle{font-size:10px!important;color:#a4ad9b!important;margin-top:5px}.definition-list{display:grid;grid-template-columns:110px 1fr;gap:15px 12px;font-size:11px}.definition-list dt{color:#5d7e63;font-family:var(--mono);font-size:10px}.definition-list dd{margin:0;color:#8c9883;line-height:1.9}.commit-detail-id{font:11px var(--mono);color:#7d9e74;display:inline-block;margin-bottom:10px}.file-preview{margin-top:11px;border:1px solid #e1e8db;border-radius:6px;overflow:hidden}.file-preview summary{padding:8px 11px;background:#f5f8f1;font:10px var(--mono);cursor:pointer;color:#7c9270}.file-preview pre{margin:0;padding:12px;font:11px/1.9 var(--mono);white-space:pre-wrap;overflow-wrap:anywhere;color:#798b72}.pr-section{padding:12px 17px;border-top:1px solid #e8eedd;background:#fafcf7}.pr-heading{font-size:9px;color:#94a288;margin-bottom:8px;display:flex;align-items:center;gap:6px}.pr-heading svg{width:13px;height:13px}.pr-card{border:1px solid #e0e7d9;border-radius:6px;padding:10px 11px;background:#fff;margin-top:7px}.pr-card-title{font-size:10px;display:flex;align-items:center;gap:5px;color:#6b8e6a}.pr-card-title.merged{color:#997db1}.pr-card p{font-size:8px;color:#a4ac9b;margin-top:5px;overflow-wrap:anywhere}.pr-card button{margin-top:8px;font-size:9px;padding:5px 9px;min-height:27px}.toast{position:fixed;bottom:25px;left:50%;transform:translateX(-50%);z-index:70;background:#294b3e;color:#f0f5eb;padding:12px 21px;border-radius:9px;font-size:11px;box-shadow:0 7px 28px #253a3625;max-width:90vw;animation:toastIn .2s ease;display:flex;align-items:center;gap:8px}.toast.error{background:#8b614b}.toast svg{height:15px;width:15px}.conflict-card{margin-top:14px;border:1px solid #eadccb;border-radius:8px;padding:12px}.conflict-card h3{font:11px var(--mono);margin:0 0 9px}.conflict-choices{display:grid;grid-template-columns:1fr 1fr;gap:9px}.conflict-choices label{border:1px solid #e5e9dc;border-radius:5px;padding:8px;font-size:10px;color:#819170;cursor:pointer}.conflict-choices label:has(input:checked){border-color:#6aa581;background:#f2f8ee}.conflict-choices pre{font:9px/1.8 var(--mono);white-space:pre-wrap;max-height:100px;overflow:auto;overflow-wrap:anywhere;color:#91a084}.empty-hint{font-size:10px;color:#98a68f;padding:12px 0}.screen-reader-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@keyframes panelIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}@keyframes toastIn{from{opacity:0;bottom:15px}to{opacity:1;bottom:25px}}
+@media(min-width:1550px){.app-layout{grid-template-columns:minmax(0,1fr) 265px}.main-column{padding:42px 46px 20px}.operations-sidebar{padding:35px 26px}.operation-panel{right:290px}.repo-top{padding-top:24px}.commit-graph-wrap,.commit-graph{height:260px}.repo-empty{min-height:465px}.guide-card{padding:20px 24px}.page-heading{margin-bottom:31px}.guide-card{margin-bottom:35px}}
+@media(max-width:1180px){.main-column{padding:26px 23px 15px}.app-header,.workspace-bar{padding-left:24px;padding-right:24px}.guide-card{gap:14px;padding:14px}.guide-intro{gap:8px}.guide-spark{display:none}.guide-card>.text-button{display:none}.guide-steps{gap:9px}.save-status{display:none}.repositories{gap:16px}.legend{gap:9px;font-size:8px}.repo-top{padding:17px 14px 13px;gap:8px}.repo-title{font-size:13px}.repo-icon{width:33px;height:33px}.repo-url{padding-left:14px;font-size:8px}.branches-section{padding-left:14px;padding-right:14px}.repo-bottom{padding:11px 14px}.branch-chip .branch-name{max-width:150px}.selection-detail{display:none}.section-caption>span:last-child{display:none}.header-description{font-size:10px}}
+@media(max-width:900px){.app-layout{grid-template-columns:minmax(0,1fr) 186px}.operations-sidebar{padding:25px 13px}.operation-panel{right:199px;width:350px}.operations-sidebar h2{font-size:15px}.sidebar-description{font-size:8px}.operation-button{padding:9px;gap:8px}.operation-button .operation-label{font-size:10px}.header-description{display:none}.sandbox-badge{font-size:9px}.page-heading h1{font-size:23px}.page-heading p{font-size:10px}.guide-intro{display:none}.guide-steps{justify-content:space-around}.repo-top>.repo-badge{display:none}.repo-title{font-size:12px}.repo-eyebrow{font-size:8px}.repo-icon{width:29px;height:29px}.repo-icon svg{width:18px;height:18px}.repo-bottom{font-size:8px;flex-wrap:wrap}.legend{gap:6px}.section-caption{font-size:8px}.workspace-note{display:none}.workspace-tabs{max-width:100%}.main-footer>span:first-child{display:none}}
+@media(max-width:700px){.app-header{height:66px;padding:0 17px;gap:12px}.brand{font-size:23px}.header-divider,.sandbox-badge{display:none}.header-actions{gap:8px}.small-button{font-size:9px;padding:6px 8px}.workspace-bar{padding:0 15px;height:48px}.workspace-tab{font-size:10px;padding:10px;height:38px}.app-layout{grid-template-columns:minmax(0,1fr) 152px}.main-column{padding:23px 14px 15px}.page-heading h1{font-size:22px;max-width:270px}.page-heading p{font-size:9px;max-width:250px;line-height:1.9}.eyebrow{font-size:8px}.eyebrow span{display:none}.guide-card{padding:12px 8px;margin-bottom:22px}.guide-steps{gap:4px}.guide-step{font-size:9px;gap:4px}.guide-step .number{width:17px;height:17px;font-size:8px}.guide-arrow{font-size:8px}.canvas-toolbar{flex-wrap:wrap;gap:7px}.repositories{grid-template-columns:1fr;gap:17px}.operations-sidebar{padding:23px 10px}.sidebar-heading{font-size:7px}.operations-sidebar h2{font-size:13px}.sidebar-description{font-size:8px;white-space:normal;line-height:1.8}.operation-button{padding:9px 7px;gap:6px}.operation-button>.op-icon{width:23px;height:25px}.operation-button>.op-icon svg{width:15px;height:15px}.operation-button .operation-label{font-size:9px}.operation-button .operation-english{font-size:7px}.operation-button>.op-arrow{display:none}.sidebar-tip{padding:11px 9px}.sidebar-tip strong,.sidebar-tip p{font-size:8px}.help-link{font-size:8px}.branch-chip .branch-name{max-width:180px}.repo-top>.repo-badge{display:block}.repo-title{font-size:14px}.repo-eyebrow{font-size:9px}.repo-top{padding:17px}.repo-icon{width:35px;height:35px}.repo-url{font-size:9px;padding-left:17px}.repo-bottom{font-size:9px}.branches-section{min-height:105px}.commit-graph,.commit-graph-wrap{min-height:200px;height:200px}.operation-panel{right:10px;bottom:10px;width:min(375px,calc(100vw - 20px));max-height:65vh}.selection-bar{font-size:9px;padding:9px;flex-wrap:wrap}.selection-bar .text-button{font-size:9px}.panel-header{padding:11px}.history-actions{gap:9px!important}.panel-header h2{font-size:10px}.panel-header .text-button{font-size:8px}.log-entry{padding:11px;gap:6px;grid-template-columns:35px 6px 1fr}.log-title{font-size:10px}.log-detail{font-size:9px}.log-command{font-size:8px}.main-footer>span:last-child{flex-wrap:wrap;font-size:7px}.modal{padding:22px}.modal h2{font-size:18px}.definition-list{grid-template-columns:80px 1fr;gap:12px 8px}.repo-empty{min-height:300px}.conflict-choices{grid-template-columns:1fr}}
+.page-heading p{color:#758272}.sidebar-description{color:#7e8e74}.operation-button .operation-label{font-size:12px}.operation-button .operation-english{color:#87977d}.branch-chip{font-size:11px}.branch-chip.tracking{font-size:10px}.repo-url{color:#82927e}.repo-bottom{color:#7b8d73}.log-detail{color:#7b8c72}.commit-message{fill:#7f8f78}.commit-id{fill:#71866e}.operation-panel-description{color:#71866a}.op-form-field{color:#718567}.pick-field .field-placeholder{color:#7e9271}.definition-list dd,.modal p,.modal li{color:#738568}.operations-sidebar{position:sticky;top:0;align-self:start;height:calc(100vh - 132px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:#d7e0d0 transparent}
+@media(min-width:1000px){body.has-operation .app-layout{grid-template-columns:minmax(0,1fr) 350px}.operation-panel{right:16px;width:318px}.operation-panel-header{padding:16px 17px 11px}.operation-panel-description{padding-left:17px;padding-right:17px}.operation-panel-body{padding-left:17px;padding-right:17px}}
+.mobile-only,.mobile-dock,.mobile-tool-backdrop{display:none}
+/* Phone layout: full-width repository cards and a thumb-accessible toolbox. */
+@media(max-width:760px){
+  html{scroll-padding-top:61px}
+  body{padding-bottom:calc(100px + env(safe-area-inset-bottom));font-size:14px}
+  .app-header{height:64px;padding:0 18px;gap:10px;position:sticky;top:0;z-index:15;background:#ffffffed;backdrop-filter:blur(14px)}
+  .brand{font-size:25px;gap:9px}.brand-mark{width:32px;height:32px}
+  .header-description,.header-divider,.sandbox-badge{display:none}
+  .header-actions{gap:5px}.header-actions .icon-button{width:44px;height:44px}
+  .small-button{min-height:40px;padding:7px 10px;font-size:10px}
+  .workspace-bar{position:sticky;top:0;z-index:14;height:49px;padding:0 14px;background:#eef2eaf5;backdrop-filter:blur(12px)}
+  .workspace-tabs{max-width:100%;width:100%;gap:5px}.workspace-tab{min-height:44px;height:44px;font-size:12px;padding:10px 13px;max-width:290px}
+  .workspace-tab>span:first-of-type{overflow:hidden;text-overflow:ellipsis}.workspace-note{display:none}.fork-tag{font-size:9px}
+  .app-layout,body.has-operation .app-layout{display:block;min-height:0}
+  .main-column{padding:26px 16px 10px;width:100%}
+  .page-heading{margin-bottom:23px}.eyebrow{font-size:9px;letter-spacing:.12em;margin-bottom:9px}.eyebrow span{display:none}
+  .page-heading h1{font-size:clamp(22px,6.8vw,30px);max-width:none;letter-spacing:-.045em;line-height:1.55}
+  .page-heading p{font-size:12px;line-height:1.95;max-width:330px;margin-top:9px;color:#7b8874}
+  .save-status{display:none}
+  .guide-card{padding:13px 12px;margin-bottom:25px;border-radius:12px;display:block}
+  .guide-intro{display:flex;gap:9px;margin-bottom:11px}.guide-spark{display:grid;width:27px;height:27px}.guide-spark svg{height:16px;width:16px}
+  .guide-intro strong{font-size:11px}.guide-intro div>span{font-size:10px}.guide-intro div{display:flex;align-items:baseline;gap:12px}
+  .guide-steps{justify-content:space-between;gap:3px}.guide-step{font-size:10px;gap:5px;min-height:39px}.guide-step .number{width:22px;height:22px;font-size:10px;flex-shrink:0}
+  .guide-arrow{font-size:10px}.guide-card>.text-button{display:none}
+  .canvas-toolbar{display:flex;flex-direction:column;align-items:flex-start;gap:10px;margin-bottom:14px}
+  .section-caption{font-size:9px}.section-caption>span:last-child{display:inline;font-size:10px;max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .legend{font-size:10px;gap:16px}.legend-dot{width:7px;height:7px}
+  .repositories{grid-template-columns:minmax(0,1fr);gap:22px;overflow-anchor:none}
+  .repo-card{border-radius:15px;scroll-margin-top:62px;box-shadow:0 4px 15px #3b5a3e04}
+  .repo-top{padding:18px;gap:12px;min-height:82px}.repo-icon{width:42px;height:42px;border-radius:12px}.repo-icon svg{width:24px;height:24px}
+  .repo-eyebrow{font-size:9px;letter-spacing:.08em}.repo-title{font-size:18px;margin-top:3px}.repo-top>.repo-badge{display:block;font-size:9px;padding:2px 6px}
+  .repo-url{padding:0 18px 15px;min-height:32px;font-size:10px}.repo-url svg{height:12px;width:12px}
+  .branches-section{padding:16px 18px 0;min-height:100px}.branches-heading{font-size:9px;margin-bottom:12px}.branches-heading span{font-size:10px}
+  .branch-list{gap:10px}.branch-chip,.branch-chip.tracking{min-height:44px;padding:10px 11px;font-size:12px;gap:7px;border-radius:8px}
+  .branch-chip .branch-name{max-width:230px}.branch-chip svg{width:15px;height:15px}.branch-chip .head-pill{font-size:8px;padding:2px 4px}
+  .tracking-label{font-size:10px;line-height:1.8;margin-top:16px;margin-bottom:9px}.tracking-label svg{width:12px;height:12px}.graph-heading{padding:0 18px;margin-top:18px;font-size:9px}.graph-heading span:last-child{font-size:9px}
+  .commit-graph-wrap{min-height:205px;scrollbar-width:thin;overscroll-behavior-x:contain}.commit-graph{min-height:205px}
+  .commit-id,.commit-message,.node-tip{font-size:9px}.graph-timeline{padding:9px 18px 15px;font-size:10px}
+  .repo-bottom{padding:14px 18px;font-size:11px;line-height:1.9;gap:6px}.repo-bottom .mono{font-size:10px}.repo-bottom svg{width:14px;height:14px}
+  .fork-parent{padding:10px 18px;font-size:11px;overflow-wrap:anywhere}.repo-empty{min-height:280px;padding:25px}.repo-empty strong{font-size:15px}.repo-empty p{font-size:12px}
+  .selection-bar{margin-top:16px;padding:12px;font-size:11px;gap:7px;border-radius:9px;line-height:1.9;overflow-wrap:anywhere}.selection-bar>span{min-width:0}.selection-bar .text-button{font-size:11px;min-height:35px}
+  .selection-detail{display:none}
+  .activity-panel{margin-top:24px;border-radius:12px}.panel-header{padding:12px}.panel-header h2{font-size:12px}.panel-header .text-button{font-size:10px;min-height:38px}.history-actions{gap:12px!important}
+  .activity-log{max-height:275px}.log-entry{grid-template-columns:39px 6px 1fr;gap:9px;padding:16px 12px}.log-time{font-size:9px}.log-title{font-size:12px}.log-detail{font-size:11px;line-height:1.9}.log-command{font-size:10px;margin-top:8px}
+  .main-footer{margin-top:21px;font-size:10px}.main-footer>span:last-child{font-size:10px;gap:7px}.main-footer .text-button{font-size:10px;min-height:40px}
+  .mobile-dock{position:fixed;z-index:25;bottom:calc(12px + env(safe-area-inset-bottom));left:12px;right:12px;display:flex;align-items:center;gap:5px;padding:7px;background:#ffffffed;backdrop-filter:blur(18px);border:1px solid #e0e8dc;border-radius:20px;box-shadow:0 7px 35px #23462f1c}
+  .mobile-dock>button{background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:10px;color:#7e9177;min-height:52px;flex:1;border-radius:13px}
+  .mobile-dock svg{height:19px;width:19px}.mobile-dock #mobile-tools{flex:1.8;flex-direction:row;gap:9px;font-size:13px;font-weight:550;background:var(--green);color:#fff;min-height:50px}.dock-plus{margin-left:6px;font-size:17px;font-weight:400;opacity:.75}
+  .operations-sidebar{display:none}
+  .mobile-tools-open{overflow:hidden}
+  .mobile-tools-open .operations-sidebar{display:block;position:fixed;z-index:35;left:0;right:0;bottom:0;top:auto;height:auto;max-height:86vh;max-height:86dvh;border:1px solid #e1e8da;border-bottom:0;border-radius:24px 24px 0 0;padding:24px 19px calc(25px + env(safe-area-inset-bottom));overflow-y:auto;overscroll-behavior:contain;box-shadow:0 -15px 70px #1e382b20;animation:panelIn .2s ease}
+  .mobile-only{display:inline-flex}.mobile-tool-backdrop{position:fixed;inset:0;z-index:30;background:#233f3452;backdrop-filter:blur(3px);display:block}
+  #mobile-tool-close{position:absolute;right:14px;top:15px;width:44px;height:44px}
+  .sidebar-heading{font-size:9px}.sidebar-heading>span:last-child{display:none}.operations-sidebar h2{font-size:23px;margin-top:5px}.sidebar-description{font-size:12px;white-space:normal;margin-top:6px}
+  #operation-buttons{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:9px}
+  .operation-group-label{grid-column:1/-1;margin:20px 0 1px;font-size:10px}
+  .operation-button,.operation-button.compact{padding:11px 10px;margin:0;min-height:69px;gap:9px;border-radius:11px}
+  .operation-button>.op-icon,.operation-button.compact>.op-icon{width:31px;height:33px;border-radius:9px}.operation-button>.op-icon svg{height:19px;width:19px}
+  .operation-button .operation-label{font-size:12px;line-height:1.6}.operation-button .operation-english{font-size:9px;margin-top:2px;overflow-wrap:anywhere}.operation-button>.op-arrow{display:none}.operation-button .github-badge{font-size:7px;top:4px;right:5px}
+  .sidebar-tip{margin-top:20px;padding:14px}.sidebar-tip strong,.sidebar-tip p{font-size:11px}.help-link{font-size:12px;padding-top:13px;min-height:48px}
+  .operation-panel{right:10px;left:10px;bottom:calc(88px + env(safe-area-inset-bottom));width:auto;max-height:calc(100vh - 220px);max-height:calc(100dvh - 220px);border-radius:19px;overscroll-behavior:contain;scroll-padding:12px;box-shadow:0 10px 55px #203b2f24}
+  .operation-panel-header{padding:17px 17px 8px}.operation-panel h2{font-size:18px}.operation-panel-header .icon-button{width:40px;height:40px;margin:-6px -7px -6px 0}
+  .operation-panel-description{font-size:12px;padding:0 17px 14px}.operation-panel-body{padding:0 17px 17px}
+  .pick-field{min-height:59px;padding:10px;border-radius:9px;gap:8px}.pick-field .field-value{font-size:12px}.pick-field .field-placeholder{font-size:11px}
+  .pick-hint,.cross-workspace-note{font-size:11px;line-height:1.9}.op-form-field{font-size:12px;margin-top:15px}
+  .op-form-field input,.op-form-field textarea,.op-form-field select{font-size:16px;min-height:46px;padding:10px;border-radius:8px}.op-form-field textarea{font-size:16px;min-height:100px}
+  .command-preview{font-size:10px;padding:10px}.operation-command-note{font-size:10px}.primary-button,.secondary-button{min-height:46px;font-size:13px;border-radius:9px}.operation-panel-actions{gap:9px;margin-top:13px}.operation-error{font-size:11px}
+  .mobile-pick-instruction{display:none}
+  .mobile-picking .mobile-pick-instruction{display:flex;gap:6px;align-items:center;color:#62836a;font-size:11px;padding:0 15px 10px}
+  .mobile-picking .mobile-pick-instruction svg{height:14px;width:14px}
+  .mobile-picking .operation-panel-description,.mobile-picking .pick-hint,.mobile-picking .cross-workspace-note,.mobile-picking .op-form-field,.mobile-picking .command-preview,.mobile-picking .operation-command-note{display:none}
+  .mobile-picking .operation-panel-header{padding:11px 15px 6px}.mobile-picking h2{font-size:15px}.mobile-picking .operation-panel-body{padding:0 13px 13px}.mobile-picking .pick-fields{grid-template-columns:1fr 1fr;gap:7px}.mobile-picking .pick-fields.single-field{grid-template-columns:1fr}.mobile-picking .pick-between{display:none}
+  .mobile-picking .pick-field{padding:8px;min-height:61px;gap:6px}.mobile-picking .field-value,.mobile-picking .field-placeholder{font-size:10px;line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.mobile-picking .field-check{display:none}.mobile-picking .operation-panel-actions{margin-top:10px}
+  body.has-operation{padding-bottom:calc(370px + env(safe-area-inset-bottom))}
+  .modal-backdrop{padding:14px}.modal{padding:21px 18px;max-height:calc(100vh - 60px);max-height:calc(100dvh - 60px);border-radius:20px}.modal h2{font-size:20px}.modal-heading .icon-button{width:44px;height:44px;margin:-7px}.modal p,.modal li{font-size:13px}.modal h3{font-size:14px}.modal-footer{flex-wrap:wrap;gap:8px}.modal-footer>button{flex:1;white-space:nowrap}
+  .definition-list{grid-template-columns:85px 1fr;gap:17px 11px;font-size:12px}.definition-list dt{font-size:11px}.file-preview summary{padding:13px;font-size:12px}.file-preview pre{font-size:12px}.conflict-choices{grid-template-columns:1fr}.conflict-choices label{font-size:12px;min-height:44px}.conflict-choices pre{font-size:11px}
+  .pr-section{padding:16px 18px}.pr-heading{font-size:10px}.pr-card{padding:13px}.pr-card-title{font-size:12px;align-items:flex-start;overflow-wrap:anywhere}.pr-card p{font-size:11px}.pr-card button{font-size:12px;min-height:44px}
+  .toast{bottom:calc(92px + env(safe-area-inset-bottom));font-size:12px;padding:13px 16px;width:max-content;max-width:calc(100% - 28px);border-radius:12px;animation:none}
+  .has-operation .toast{bottom:calc(335px + env(safe-area-inset-bottom))}
+}
+@media(max-width:360px){.main-column{padding-left:12px;padding-right:12px}.app-header{padding:0 12px}.brand{font-size:23px;gap:7px}.small-button{font-size:9px;padding:6px}.guide-intro div{gap:7px}.guide-intro div>span{font-size:9px}.guide-step{font-size:9px;gap:3px}.guide-step .number{width:19px;height:19px}.legend{font-size:9px;gap:12px}.branch-chip .branch-name{max-width:190px}.operation-button,.operation-button.compact{gap:7px;padding:10px 8px}.operation-button .operation-label{font-size:11px}.operation-button .op-icon{width:27px}.page-heading h1{font-size:23px}}
+.graph-empty{min-height:221px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:#a1b098;font-size:11px;padding:20px;text-align:center}.graph-empty>svg{height:32px;width:32px;stroke-width:1.3;color:#bbc8b3}.graph-empty strong{font-size:12px;font-weight:500;color:#86997a}.project-files{margin:14px 18px 0;padding:11px 13px;border:1px solid #e4eadf;background:#f8faf5;border-radius:8px;display:flex;flex-wrap:wrap;align-items:center;gap:9px;font-size:10px;color:#879b7a}.project-files>span{display:flex;align-items:center;gap:5px}.project-files svg{width:13px;height:13px}.project-files code{font:10px var(--mono);color:#71896a}.guide-steps{overflow-x:auto;justify-content:flex-start;scrollbar-width:thin;min-width:0;padding:4px}.guide-step.current{color:var(--green);font-weight:600}.guide-step.current .number{border-color:#78ac84;background:#fff;color:var(--green)}.guide-step,.guide-arrow{flex-shrink:0}.guide-intro{max-width:290px}.guide-intro strong{overflow-wrap:anywhere}
+.start-chooser{width:650px;padding:30px}.start-chooser .modal-heading{margin-bottom:13px}.start-chooser.required-start .modal-heading [data-close-modal]{display:none}.start-chooser .start-intro{color:#819176;font-size:13px;line-height:1.9}.start-choices{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin:24px 0 17px}.start-choice{display:flex;flex-direction:column;align-items:flex-start;text-align:left;border:1px solid #dce6d5;border-radius:15px;background:#f8fbf5;padding:22px;gap:12px;min-height:260px}.start-choice:hover{border-color:#8cb393;background:#f0f7ed;box-shadow:0 5px 20px #4362390b}.start-choice-icon{width:44px;height:44px;display:grid;place-items:center;border-radius:12px;background:#e5efdf;color:#659078}.start-choice[data-start=local] .start-choice-icon{background:#e7eef5;color:#688dae}.start-choice-icon svg{width:25px;height:25px}.start-choice-label{font-size:18px;font-weight:600;line-height:1.7;letter-spacing:-.035em}.start-choice-detail{font-size:11px;color:#8c9a80;line-height:1.9}.start-choice-next{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px;font:11px var(--mono);width:100%;padding-top:13px;border-top:1px solid #e0e9d9;color:var(--green)}.start-choice-next svg{width:16px;height:16px}.start-chooser .start-model-note{font-size:10px;text-align:center;color:#9ba790;line-height:1.8;margin-top:8px}
+@media(max-width:760px){
+  body.has-operation .mobile-dock,body.start-choosing .mobile-dock{display:none}
+  body.has-operation .operation-panel{bottom:calc(12px + env(safe-area-inset-bottom));max-height:calc(100dvh - 81px)}
+  body.has-operation{padding-bottom:calc(300px + env(safe-area-inset-bottom))}
+  .has-operation .toast{bottom:calc(270px + env(safe-area-inset-bottom))}
+  .guide-intro{max-width:none}.guide-intro div{display:block}.guide-intro strong{font-size:12px}.guide-intro div>span{font-size:10px;margin-top:3px}.guide-steps{gap:8px}.guide-step{font-size:10px}
+  .start-chooser{padding:24px 19px}.start-chooser h2{font-size:23px}.start-choices{grid-template-columns:1fr;gap:12px;margin-top:19px}.start-choice{display:grid;grid-template-columns:45px 1fr;gap:7px 13px;padding:17px;min-height:155px}.start-choice-icon{grid-row:1/3}.start-choice-label{font-size:17px;line-height:1.6}.start-choice-label br{display:initial}.start-choice-detail{font-size:11px;grid-column:2}.start-choice-next{grid-column:2;padding-top:9px;font-size:11px}.start-chooser .start-model-note{font-size:10px}.project-files{font-size:11px}.project-files code{font-size:11px}
+}
+.file-workflow{padding:16px 17px 4px;border-bottom:1px solid #edf0e7}.file-flow-title{display:flex;align-items:center;justify-content:center;gap:13px;font-size:10px;color:#7f9476;margin-bottom:12px}.file-flow-title>span{display:flex;align-items:center;gap:5px}.file-flow-title svg{width:13px;height:13px}.file-flow-title i{font-style:normal;color:#b1bfaa}.file-zones{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:9px}.file-zone{border:1px solid #e2e8df;background:#f8faf6;border-radius:8px;padding:11px;min-width:0}.file-zone.staged{background:#f1f7ef;border-color:#dce8d4}.file-zone-heading{display:flex;align-items:center;justify-content:space-between;gap:5px;font-size:10px;color:#78906d;margin-bottom:8px}.file-zone-heading strong{font-weight:550}.file-zone-heading>span{font:9px var(--mono);white-space:nowrap;color:#91a580}.file-status-list{max-height:100px;overflow:auto;scrollbar-width:thin;min-height:30px}.working-file{display:flex;align-items:center;gap:5px;font-size:9px;line-height:1.8;padding:4px 0}.working-file code{font:9px var(--mono);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#6c8466}.file-change-kind{margin-left:auto;font-size:8px;color:#9aab88;white-space:nowrap}.files-clean{font-size:9px;color:#a1af95;margin:5px 0}.file-zone>.text-button{font-size:9px;min-height:28px}.file-workflow-note{font-size:8px;line-height:1.9;color:#99a78d;margin:10px 1px}.stage-options,.staged-preview{margin-top:16px}.stage-options-heading{font-size:10px;color:#829575;margin-bottom:9px}.stage-file-option{display:flex;align-items:center;gap:9px;min-height:43px;padding:10px;border:1px solid #e0e9d8;border-radius:7px;background:#f8fbf4;margin-top:7px;cursor:pointer}.stage-file-option input{accent-color:var(--green);width:16px;height:16px;margin:0;flex-shrink:0}.stage-file-option code{font:11px var(--mono);overflow-wrap:anywhere;min-width:0}.stage-file-option>span{font-size:9px;color:#97a988;margin-left:auto;white-space:nowrap}.stage-file-option:has(input:checked){border-color:#a5c59a;background:#f0f7eb}.staging-empty{font-size:11px;color:#a18d70;line-height:1.9;background:#faf6ed;border:1px solid #eee5cf;border-radius:7px;padding:12px}.staged-preview .file-preview pre{max-height:160px;overflow:auto}
+@media(max-width:760px){.file-workflow{padding:16px 16px 5px}.file-flow-title{font-size:11px;gap:15px}.file-zones{gap:8px}.file-zone{padding:10px}.file-zone-heading{font-size:11px}.file-zone-heading>span{font-size:10px}.working-file code{font-size:10px}.file-change-kind,.files-clean{font-size:10px}.file-zone>.text-button{min-height:44px;font-size:10px;white-space:normal;line-height:1.7}.file-workflow-note{font-size:10px;line-height:1.9}.stage-options-heading{font-size:12px}.stage-file-option{min-height:51px;padding:12px;gap:10px}.stage-file-option code{font-size:12px}.stage-file-option>span{font-size:10px}.stage-file-option input{width:20px;height:20px}.staging-empty{font-size:12px}}
+.toast{pointer-events:none}.file-preview summary{-webkit-tap-highlight-color:transparent}
+.main-footer{justify-content:flex-end}
+.main-footer>span:last-child{display:flex}
+/* The selected tab underline must stay inside the horizontal scroll area. */
+.workspace-tabs{overflow-x:auto;overflow-y:hidden}
+.workspace-tab[aria-selected=true]:after{bottom:0}
+/* Center repository addresses with equal space above and below the text. */
+.repo-url{padding-top:10px;padding-bottom:10px;min-height:42px;font-size:12px;line-height:21px}
+.repo-url svg{width:14px;height:14px;margin-right:6px}
+.editor-actions{display:flex;justify-content:flex-end;margin-top:8px}
+.quick-edit-button{min-height:36px;color:var(--green-dark);background:#f1f8f2;border-color:#bfd9c7}
+.quick-edit-button svg{width:14px;height:14px}
+@media(max-width:760px){.quick-edit-button{min-height:44px;font-size:12px}.mobile-picking .editor-actions{display:none}}
+/* Keep the title and page actions together without a separate brand header. */
+.app-layout{min-height:calc(100vh - 53px)}
+.operations-sidebar{height:calc(100vh - var(--toolbox-top-gap,53px));height:calc(100dvh - var(--toolbox-top-gap,53px))}
+/* Let the column draw the divider while its toolbox content stays sticky. */
+@media(min-width:761px){
+  .app-layout::before{content:'';grid-area:1/2;border-left:1px solid var(--line);background:#fbfcf9;pointer-events:none}
+  .main-column{grid-area:1/1}
+  .operations-sidebar{grid-area:1/2;border-left:0;background:transparent}
+}
+.page-heading{display:block}
+.page-heading-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.page-heading .header-actions{gap:8px}
+.page-heading .small-button{min-height:38px;font-size:11px;padding:7px 11px}
+.page-heading-meta{display:flex;align-items:center;justify-content:space-between;gap:12px}
+@media(max-width:760px){
+  .app-layout,body.has-operation .app-layout{min-height:0}
+  .page-heading .small-button{min-height:44px;padding:7px 9px}
+}
+/* Keep repository highlights and operation markers inside the clipped card. */
+.repo-top:is(.pick-source,.pick-target,:focus-visible){outline-offset:-3px;border-radius:11px 11px 0 0}
+/* Make the tutorial distinct from the repository canvas and easy to collapse. */
+.guide-card{display:block;background:#edf4ff;border-color:#a9c4ff;border-left:4px solid #2162ed;padding:18px 20px}
+.guide-header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.guide-card .guide-intro{max-width:none;margin-bottom:0;gap:12px}
+.guide-card .guide-intro div{display:block}
+.guide-card .guide-spark{width:38px;height:38px;border-radius:10px;background:#2162ed;color:white}
+.guide-card .guide-kicker{font-size:10px;font-weight:700;color:#1555cf;margin:0 0 3px;letter-spacing:.04em}
+.guide-card .guide-intro strong{font-size:14px;color:#193e7b}
+.guide-card #guide-description{font-size:11px;color:#49648b;margin-top:3px}
+.guide-actions{display:flex;align-items:center;gap:16px;margin-left:auto}
+.guide-actions .text-button{font-size:11px;color:#2459ac}
+.guide-hide,.guide-restore{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:36px;padding:6px 12px;border:1px solid #aac4f5;border-radius:7px;background:white;color:#2459ac;font-size:11px;white-space:nowrap}
+.guide-hide:hover,.guide-restore:hover{background:#e0ebff;border-color:#2162ed}
+.guide-restore{margin-bottom:24px}
+.guide-card .guide-steps{justify-content:flex-start;gap:9px;margin-top:16px;padding:3px 1px}
+.guide-card .guide-step{min-height:34px;padding:5px 9px;border:1px solid #b8cdf4;border-radius:7px;background:white;color:#365583;font-size:11px}
+.guide-card .guide-step:disabled{opacity:1;color:#64748b;background:#f5f8fe;border-color:#d5e0f3}
+.guide-card .guide-step .number{width:22px;height:22px;font-size:10px;background:#edf3ff;border-color:#b8cdf4;color:#2459ac}
+.guide-card .guide-step.done .number{background:#2162ed;border-color:#2162ed;color:white}
+.guide-card .guide-step.current{background:#2162ed;border-color:#2162ed;color:white;box-shadow:0 2px 6px #2162ed25}
+.guide-card .guide-step.current .number{background:white;border-color:white;color:#1555cf}
+.guide-card .guide-arrow{color:#6486bd}
+@media(max-width:760px){
+  .guide-card{padding:15px 12px}
+  .guide-header{gap:12px}
+  .guide-card .guide-spark{width:34px;height:34px}
+  .guide-card .guide-intro strong{font-size:13px}
+  .guide-actions{width:100%;justify-content:space-between;gap:10px}
+  .guide-actions .text-button,.guide-hide,.guide-restore{min-height:44px}
+  .guide-card .guide-steps{margin-top:10px}
+  .guide-card .guide-step{min-height:44px}
+}
+@media(max-width:760px){.has-operation .toast{top:59px;bottom:auto}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+</style>
+</head>
+<body>
+  <nav class="workspace-bar" aria-label="ワークスペース"><div id="workspace-tabs" class="workspace-tabs" role="tablist" aria-label="リポジトリのワークスペース"></div><span class="workspace-note"><span data-icon="layers"></span> フォークは別タブに表示</span></nav>
+  <main class="app-layout">
+    <section class="main-column" aria-label="Gitの学習キャンバス">
+      <div class="page-heading">
+        <div class="page-heading-row"><h1>Gitキャンプ</h1><div class="header-actions"><button class="small-button" id="help-button" aria-label="使い方を開く" title="使い方"><span data-icon="help"></span>ヘルプ</button><button class="small-button" id="reset-button"><span data-icon="reset"></span>はじめから</button></div></div>
+        <div class="page-heading-meta"><p>操作を選び、対象のリポジトリやブランチを指定してください。</p><span class="save-status" id="save-status"><i></i> このブラウザに自動保存</span></div>
+      </div>
+      <button class="guide-restore" id="guide-show" aria-controls="tutorial-guide" aria-expanded="false" hidden><span data-icon="book"></span>手順を再表示</button>
+      <section class="guide-card" id="tutorial-guide" aria-label="おすすめの学習手順">
+        <div class="guide-header">
+          <div class="guide-intro"><span class="guide-spark" data-icon="book"></span><div><span class="guide-kicker">チュートリアル · はじめの手順</span><strong id="guide-title">取得・切替・統合の手順</strong><span id="guide-description">フェッチ・チェックアウト・プル</span></div></div>
+          <div class="guide-actions"><button class="text-button" id="scenario-button" title="開始地点を選んで、新しい練習を追加">開始地点を選び直す <span aria-hidden="true">↗</span></button><button class="guide-hide" id="guide-hide" aria-controls="tutorial-guide" aria-expanded="true">非表示</button></div>
+        </div>
+        <div class="guide-steps" id="guide-steps"></div>
+      </section>
+      <div class="canvas-toolbar"><div class="section-caption"><span class="live-dot"></span> REPOSITORY MAP <span id="workspace-label"></span></div><div class="legend"><span><i class="legend-dot remote-color"></i>リモート</span><span><i class="legend-dot local-color"></i>ローカル</span><span><i class="legend-dot tracking-color"></i>取得済みの参照</span></div></div>
+      <section class="repository-map" id="repository-map" aria-label="リモートとローカルのリポジトリ"><div id="repositories" class="repositories"></div><svg id="flow-overlay" class="flow-overlay" aria-hidden="true"></svg></section>
+      <div class="selection-bar" id="selection-bar" aria-live="polite"></div>
+      <section class="activity-panel"><div class="panel-header"><div><span data-icon="terminal"></span><h2>操作ログ</h2><span class="count-badge" id="log-count">0</span></div><div class="history-actions"><button class="text-button" id="undo-button" disabled><span data-icon="undo"></span>1つ戻す</button><button class="text-button" id="redo-button" disabled>やり直す<span data-icon="redo"></span></button></div></div><div id="activity-log" class="activity-log" aria-live="polite" aria-relevant="additions"></div></section>
+      <footer class="main-footer"><span>Gitキャンプ <i>·</i> 学習用モデル <button class="text-button" id="model-button">モデルについて <span aria-hidden="true">↗</span></button></span></footer>
+    </section>
+    <aside class="operations-sidebar" id="toolbox" aria-label="Gitの操作"><button class="icon-button mobile-only" id="mobile-tool-close" aria-label="操作メニューを閉じる" data-icon="close"></button><div class="sidebar-heading"><span>TOOLBOX</span><span data-icon="sliders"></span></div><h2 id="toolbox-title">Gitの操作</h2><p class="sidebar-description">操作を選ぶと、行き先を指定できます。</p><div id="operation-buttons"></div><div class="sidebar-tip"><span data-icon="bulb"></span><strong>選択と実行</strong><p>ブランチをクリックすると選択状態に。変更は操作の「実行」で確定します。</p></div><button class="help-link" id="glossary-button"><span data-icon="book"></span> Gitのことばを確認 <span>↗</span></button></aside>
+  </main>
+  <div id="mobile-tool-backdrop" class="mobile-tool-backdrop" hidden></div>
+  <nav class="mobile-dock" aria-label="スマホの操作ナビゲーション"><button id="mobile-remote"><span data-icon="cloud"></span><span>リモート</span></button><button id="mobile-local"><span data-icon="monitor"></span><span>ローカル</span></button><button id="mobile-tools" aria-controls="toolbox" aria-expanded="false"><span data-icon="sliders"></span><span>操作する</span><span class="dock-plus" aria-hidden="true">＋</span></button></nav>
+  <section id="operation-panel" class="operation-panel" role="dialog" aria-modal="false" aria-labelledby="operation-title" hidden></section>
+  <div id="modal-backdrop" class="modal-backdrop" hidden><section id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1"></section></div>
+  <div id="toast" class="toast" role="status" hidden></div>
+<script>
+/* A small, deterministic commit DAG. No Git or network commands are executed. */
+(function (root) {
+  'use strict';
+  const copy = value => JSON.parse(JSON.stringify(value));
+  class GitError extends Error { constructor(message) { super(message); this.name = 'GitError'; } }
+  class GitEngine {
+    constructor(state) { this.state = state || this.initial(); this.validate(); this.migrateWorkingState(); }
+    initial() {
+      const commits = {
+        a1b2c3d: { id:'a1b2c3d', parents:[], message:'プロジェクトをはじめる', files:{'README.md':'Hello, Git!'}, lane:'main', order:0 },
+        b2c3d4e: { id:'b2c3d4e', parents:['a1b2c3d'], message:'使い方を追加', files:{'README.md':'Hello, Git!\n使い方を追加しました。'}, lane:'main', order:1 },
+        c3d4e5f: { id:'c3d4e5f', parents:['b2c3d4e'], message:'共同編集者が README を更新', files:{'README.md':'Hello, Git!\n使い方を追加しました。\nチームからの更新です。'}, lane:'main', order:2 },
+        d4e5f6a: { id:'d4e5f6a', parents:['b2c3d4e'], message:'ページの色を変更', files:{'README.md':'Hello, Git!\n使い方を追加しました。','style.css':'body { color: teal; }'}, lane:'feature/design', order:3 }
+      };
+      return { version:1, counter:4, repoCounter:2, spaceCounter:1, prCounter:0, active:'space-1', commits,
+        repos:{ 'remote-1':{id:'remote-1',kind:'remote',name:'team / hello-git',branches:{main:'c3d4e5f'},defaultBranch:'main',parent:null},
+          'local-1':{id:'local-1',kind:'local',name:'hello-git',branches:{main:'b2c3d4e','feature/design':'d4e5f6a'},head:'feature/design',defaultBranch:'main',remote:'remote-1',tracking:{'origin/main':'b2c3d4e'},upstreams:{main:'main'}} },
+        spaces:[{id:'space-1',name:'hello-git',remote:'remote-1',local:'local-1',fork:false,progress:[]}], prs:[],
+        log:[{title:'実験の準備ができました',detail:'リモートの main は、手元で取得した origin/main より1コミット先に進んでいます。まずはフェッチを試してみましょう。',command:'git status',type:'info',time:'START'}] };
+    }
+    validate() {
+      const s=this.state;
+      if(s.version!==1 || !s.repos || !s.commits || !Array.isArray(s.spaces) || !Array.isArray(s.log) || !s.spaces.some(x=>x.id===s.active)) throw new GitError('保存データを読み込めません。');
+      for(const c of Object.values(s.commits)) if(!Array.isArray(c.parents)||!c.files||c.parents.some(p=>!s.commits[p])) throw new GitError('コミット履歴が不正です。');
+      for(const r of Object.values(s.repos)) if(!r.branches||Object.values({...r.branches,...r.tracking}).some(id=>!s.commits[id])) throw new GitError('ブランチ参照が不正です。');
+      for(const space of s.spaces) if((space.remote&&!s.repos[space.remote])||(space.local&&!s.repos[space.local])||(!space.remote&&!space.local)) throw new GitError('ワークスペースが不正です。');
+    }
+    startProject(kind,{replace=false}={}) {
+      if(!['local','github'].includes(kind))throw new GitError('プロジェクトの開始地点を選んでください。');
+      const seed=this.initial();
+      if(replace)this.state={...seed,commits:{},repos:{},spaces:[],log:[],prs:[],counter:4,repoCounter:0,spaceCounter:0,prCounter:0};
+      const sid='space-'+(++this.state.spaceCounter),id=(kind==='local'?'local-':'remote-')+(++this.state.repoCounter);
+      if(kind==='local')this.state.repos[id]={id,kind:'local',name:'hello-git',initialized:false,branches:{},head:null,defaultBranch:'main',remote:null,tracking:{},upstreams:{},workingFiles:{'README.md':'# Hello Git\n自分のPCにあるプロジェクトです。'}};
+      else{for(const [cid,c]of Object.entries(seed.commits))if(!this.state.commits[cid])this.state.commits[cid]=copy(c);this.state.repos[id]={...copy(seed.repos['remote-1']),id};}
+      this.state.spaces.push({id:sid,name:kind==='local'?'PCからはじめる':'GitHubからはじめる',remote:kind==='github'?id:null,local:kind==='local'?id:null,fork:false,progress:[],startKind:kind});
+      this.state.active=sid;this.state.onboardingVersion=1;this.state.entryPending=false;
+      this.addLog(kind==='local'?'PCのプロジェクトを選びました':'GitHubのプロジェクトを選びました',kind==='local'?'まず git init でGit管理を始めましょう。ファイルはありますが、コミットとリモートはまだありません。':'まず clone で手元にリポジトリを作りましょう。GitHub上の履歴は、まだPCにはありません。','# 開始地点を選択','info');
+      return this.space;
+    }
+    requiredAction() {
+      const steps=this.space.startKind==='local'?['init','edit','stage','commit','create-remote','connect','publish']:this.space.startKind==='github'?['clone']:[];
+      return steps.find(action=>!this.space.progress.includes(action))||null;
+    }
+    get space() { return this.state.spaces.find(s=>s.id===this.state.active); }
+    repo(id) { const r=this.state.repos[id]; if(!r) throw new GitError('リポジトリを選んでください。');if(r.kind==='local')this.prepareWorkingState(r);return r; }
+    headFiles(repo){const id=repo.branches[repo.head];return id?this.state.commits[id].files:{};}
+    prepareWorkingState(repo){const files=this.headFiles(repo);if(!repo.workingFiles)repo.workingFiles=copy(files);if(!repo.index)repo.index=copy(files);if(repo.initialized===undefined)repo.initialized=true;}
+    migrateWorkingState(){for(const repo of Object.values(this.state.repos))if(repo.kind==='local')this.prepareWorkingState(repo);for(const space of this.state.spaces)if(space.startKind==='local'&&space.progress.includes('commit'))for(const step of ['edit','stage'])if(!space.progress.includes(step))space.progress.push(step);}
+    fileChanges(before,after){return [...new Set([...Object.keys(before),...Object.keys(after)])].filter(file=>before[file]!==after[file]||Object.hasOwn(before,file)!==Object.hasOwn(after,file)).sort().map(file=>({file,kind:!Object.hasOwn(before,file)?'added':!Object.hasOwn(after,file)?'deleted':'modified',before:before[file],after:after[file]}));}
+    workingStatus(repo){if(typeof repo==='string')repo=this.repo(repo);this.prepareWorkingState(repo);return {unstaged:this.fileChanges(repo.index,repo.workingFiles),staged:this.fileChanges(this.headFiles(repo),repo.index)};}
+    resetWorkingState(repo){const files=this.headFiles(repo);repo.workingFiles=copy(files);repo.index=copy(files);}
+    ensureClean(repo){const status=this.workingStatus(repo);if(status.unstaged.length||status.staged.length)throw new GitError('未コミットの変更があります。編集したファイルをステージしてコミットしてから、ブランチの切り替え・統合を行ってください。');}
+    workingTarget(target){if(!target)throw new GitError('ローカルを選んでください。');const repo=this.repo(target.repo);if(repo.kind!=='local'||target.kind==='tracking')throw new GitError('ローカル本体、または作業中のローカルブランチを選んでください。');if(target.branch)this.ensureHead(this.ensureLocal(target));return repo;}
+    validFile(file){if(typeof file!=='string'||!file.trim()||file.length>120||/[\r\n\0]/.test(file)||['__proto__','constructor','prototype'].includes(file))throw new GitError('有効なファイル名を120文字以内で入力してください。');return file.trim();}
+    ref(target) {
+      if(!target) throw new GitError('対象を選んでください。');
+      const r=this.repo(target.repo), refs=target.kind==='tracking'?r.tracking:r.branches;
+      if(!target.branch || !Object.hasOwn(refs||{},target.branch)) throw new GitError('ブランチを選んでください。');
+      return {repo:r,id:refs[target.branch],branch:target.branch,kind:target.kind||'branch'};
+    }
+    ancestors(id) { const seen=new Set(), pending=[id]; while(pending.length){ const v=pending.pop(); if(v&&!seen.has(v)){seen.add(v); pending.push(...(this.state.commits[v]?.parents||[]));} } return seen; }
+    isAncestor(a,b) { return this.ancestors(b).has(a); }
+    difference(a,b) { const aa=this.ancestors(a),bb=this.ancestors(b); return {ahead:[...aa].filter(x=>!bb.has(x)).length,behind:[...bb].filter(x=>!aa.has(x)).length}; }
+    mergeBase(a,b) { const aa=this.ancestors(a); return [...this.ancestors(b)].filter(x=>aa.has(x)).sort((x,y)=>this.state.commits[y].order-this.state.commits[x].order)[0]; }
+    newCommit(parents,message,files,lane) { const order=this.state.counter++; const id=((order*2654435761)>>>0).toString(16).padStart(8,'0').slice(0,7); this.state.commits[id]={id,parents:[...parents],message,files:copy(files),lane,order}; return id; }
+    validName(name) { if(!name || name.length>64 || name==='@' || name.startsWith('-') || /[\s~^:?*\[\\]/.test(name)||name.includes('..')||name.includes('@{')||name.startsWith('/')||name.endsWith('/')||name.includes('//')||name.split('/').some(p=>p.startsWith('.')||p.endsWith('.')||p.endsWith('.lock'))||['__proto__','constructor','prototype'].includes(name)) throw new GitError('ブランチ名は64文字以内で、空白や ~ ^ : ? * [ \\ を使わず指定してください。'); return name; }
+    addLog(title,detail,command,type='success') { this.state.log.unshift({title,detail,command,type,time:new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}); this.state.log=this.state.log.slice(0,80); }
+    mark(action) { if(!this.space.progress.includes(action)) this.space.progress.push(action); }
+    ensureLocal(target) { const x=this.ref(target); if(x.repo.kind!=='local'||x.kind==='tracking') throw new GitError('手元のローカルブランチを選んでください。'); return x; }
+    ensureHead(x) { if(x.repo.head!==x.branch) throw new GitError(`まず ${x.branch} にチェックアウトしてください。現在は ${x.repo.head} です。`); }
+    assertRemotePair(remote,local) { if(remote.kind!=='remote'||local.kind!=='local'||local.remote!==remote.id) throw new GitError('このローカルの origin に接続されているリモートを選んでください。'); }
+    fetch(source,target) {
+      const remote=this.repo(source.repo),local=this.repo(target.repo); this.assertRemotePair(remote,local);
+      const names=source.branch?[source.branch]:Object.keys(remote.branches);
+      for(const name of names) { if(!Object.hasOwn(remote.branches,name)) throw new GitError('リモートブランチがありません。'); local.tracking['origin/'+name]=remote.branches[name]; }
+      this.mark('fetch');
+      return {title:'フェッチしました',detail:`${names.map(n=>'origin/'+n).join('、')} を更新しました。ローカルブランチと作業内容は変わりません。`,command:'git fetch origin'+(source.branch?' '+source.branch:'')};
+    }
+    merge(source,target,options={}) {
+      const from=this.ref(source),to=this.ref(target);
+      if(to.kind==='tracking'||(!options.remote&&to.repo.kind!=='local')) throw new GitError('統合先にはローカルブランチを選んでください。');
+      if(!options.remote) { if(from.repo.id!==to.repo.id) throw new GitError('マージする前に、フェッチで同じローカルに履歴を取り込んでください。'); this.ensureHead(to);this.ensureClean(to.repo); }
+      if(this.isAncestor(from.id,to.id)) return {title:'すでに取り込み済みです',detail:'統合先には、選んだブランチのすべてのコミットが含まれています。',command:`git merge ${from.branch}`};
+      if(this.isAncestor(to.id,from.id)) { to.repo.branches[to.branch]=from.id;if(to.repo.kind==='local')this.resetWorkingState(to.repo);return {title:'マージしました · fast-forward',detail:`${to.branch} の参照を ${from.id} へ進めました。新しいマージコミットは作りません。`,command:`git merge ${from.branch}`}; }
+      const base=this.mergeBase(from.id,to.id); if(!base) throw new GitError('共通の履歴がないため、マージできません。');
+      const bf=this.state.commits[base].files, sf=this.state.commits[from.id].files, tf=this.state.commits[to.id].files;
+      const files={},conflicts=[];
+      for(const file of new Set([...Object.keys(bf),...Object.keys(sf),...Object.keys(tf)])) {
+        if(sf[file]===tf[file]) files[file]=sf[file];
+        else if(sf[file]===bf[file]) files[file]=tf[file];
+        else if(tf[file]===bf[file]) files[file]=sf[file];
+        else if(options.resolutions&&Object.hasOwn(options.resolutions,file)) { const choice=options.resolutions[file]; if(!['source','target'].includes(choice)) throw new GitError('競合の解決方法を選んでください。'); files[file]=choice==='source'?sf[file]:tf[file]; }
+        else conflicts.push({file,source:sf[file],target:tf[file]});
+      }
+      if(conflicts.length) return {conflicts,from:from.branch,to:to.branch};
+      for(const f of Object.keys(files)) if(files[f]===undefined) delete files[f];
+      const id=this.newCommit([to.id,from.id],`Merge ${from.branch} into ${to.branch}`,files,to.branch); to.repo.branches[to.branch]=id;if(to.repo.kind==='local')this.resetWorkingState(to.repo);
+      return {title:'マージコミットを作成しました',detail:`${to.branch} と ${from.branch} の履歴を、2つの親を持つ ${id} でつなぎました。`,command:`git merge ${from.branch}`};
+    }
+    push(source,target,{publish=false}={}) {
+      const from=this.ensureLocal(source),remote=this.repo(target.repo); this.assertRemotePair(remote,from.repo);
+      const branch=target.branch||from.branch; this.validName(branch); const old=remote.branches[branch];
+      if(old&&!this.isAncestor(old,from.id)) throw new GitError('push を拒否しました（non-fast-forward）。リモートに未取得の変更があります。先にプルして履歴を統合してください。');
+      remote.branches[branch]=from.id; from.repo.tracking['origin/'+branch]=from.id;
+      if(publish) from.repo.upstreams[from.branch]=branch;
+      this.mark(publish?'publish':'push');
+      return {title:publish?'ブランチを公開しました':old===from.id?'すでに最新です':'プッシュしました',detail:`${from.branch} → origin/${branch}。${publish?'追跡先（upstream）も設定しました。':'ローカルの履歴をリモートへ送りました。'}`,command:`git push${publish?' -u':''} origin ${from.branch}${from.branch!==branch?':'+branch:''}`};
+    }
+    execute(action,source,target,options={}) {
+      const required=this.requiredAction();if(required&&action!==required)throw new GitError(`開始手順では、まず ${required} を実行してください。`);
+      let result;
+      switch(action) {
+        case 'edit': {
+          const local=this.workingTarget(target),file=this.validFile(options.file);if(typeof options.content!=='string')throw new GitError('ファイルの内容を入力してください。');if(local.workingFiles[file]===options.content)throw new GitError('ファイルの内容が変わっていません。内容を編集してください。');
+          local.workingFiles[file]=options.content;this.mark('edit');result={title:'ファイルを編集しました',detail:`${file} を作業フォルダに保存しました。ステージとコミットは変わりません。`,command:'# ファイルを編集: '+file};break;
+        }
+        case 'stage': {
+          const local=this.workingTarget(target);if(!local.initialized)throw new GitError('まず git init でGit管理を始めてください。');const changes=this.workingStatus(local).unstaged,files=options.files===undefined?changes.map(c=>c.file):options.files;
+          if(!Array.isArray(files)||!files.length)throw new GitError('ステージする変更を選んでください。');const unique=[...new Set(files)];for(const file of unique)if(typeof file!=='string'||!changes.some(c=>c.file===file))throw new GitError('作業フォルダで変更されたファイルを選んでください。');
+          for(const file of unique){if(Object.hasOwn(local.workingFiles,file))local.index[file]=local.workingFiles[file];else delete local.index[file];}this.mark('stage');
+          result={title:'変更をステージしました',detail:`${unique.join('、')} の今の内容を記録しました。ここから編集しても、再びステージするまでは次のコミット内容に入りません。`,command:'git add -- '+unique.map(file=>JSON.stringify(file)).join(' ')};break;
+        }
+        case 'init': {
+          const local=this.repo(target.repo);if(local.kind!=='local'||local.initialized!==false)throw new GitError('Git未初期化のPCプロジェクトを選んでください。');
+          local.initialized=true;this.mark('init');result={title:'Git管理を開始しました',detail:'git init でローカルリポジトリを初期化しました。ファイルはまだコミットされていません。',command:'git init -b main'};break;
+        }
+        case 'create-remote': {
+          if(this.space.remote)throw new GitError('この作業場所にはリモートがすでにあります。');
+          const name=(options.name||'hello-git').trim();if(!/^[A-Za-z0-9_-][A-Za-z0-9_.-]{0,63}$/.test(name)||name.endsWith('.git'))throw new GitError('リポジトリ名には64文字以内の英数字・ハイフン・アンダースコア・ドットを使ってください。');
+          const id='remote-'+(++this.state.repoCounter);this.state.repos[id]={id,kind:'remote',name:'you / '+name,branches:{},defaultBranch:'main',parent:null};this.space.remote=id;this.mark('create-remote');
+          result={title:'空のGitHubリポジトリを作成しました',detail:'READMEなどを追加せず、空のリモートを用意しました。まだローカルとは接続されていません。',command:'# GitHub: New repository（空で作成）'};break;
+        }
+        case 'connect': {
+          const remote=this.repo(source.repo),local=this.repo(target.repo);if(remote.kind!=='remote'||local.kind!=='local'||!local.initialized||local.remote||remote.id!==this.space.remote||local.id!==this.space.local)throw new GitError('この作業場所のリモートと、接続前のローカル本体を選んでください。');
+          local.remote=remote.id;this.mark('connect');result={title:'originを設定しました',detail:'ローカルにリモートの接続先を登録しました。コミットはまだ送信されていません。',command:'git remote add origin https://github.com/'+remote.name.replaceAll(' / ','/')+'.git'};break;
+        }
+        case 'fetch': result=this.fetch(source,target); break;
+        case 'push': result=this.push(source,target); break;
+        case 'publish': result=this.push(source,target,{publish:true}); break;
+        case 'pull': {
+          const from=this.ref(source),to=this.ensureLocal(target); this.assertRemotePair(from.repo,to.repo); this.ensureHead(to);
+          this.fetch(source,target); result=this.merge({repo:to.repo.id,kind:'tracking',branch:'origin/'+from.branch},target,options);
+          if(result.conflicts) return result;
+          result={...result,title:'プルしました',detail:'フェッチ → マージの順で実行。'+result.detail,command:`git pull --no-rebase origin ${from.branch}`}; this.mark('pull'); break;
+        }
+        case 'sync': {
+          const from=this.ensureLocal(source),remote=this.ref(target); this.assertRemotePair(remote.repo,from.repo); this.ensureHead(from);
+          this.fetch(target,source); const merged=this.merge({repo:from.repo.id,kind:'tracking',branch:'origin/'+remote.branch},source,options);
+          if(merged.conflicts) return merged;
+          this.push(source,target); result={title:'シンクしました',detail:'リモートの変更をプルしてから、ローカルの変更をプッシュしました。両方が同じコミットを指しています。',command:`git pull --no-rebase origin ${remote.branch} && git push origin ${from.branch}:${remote.branch}`}; this.mark('sync'); break;
+        }
+        case 'merge': result=this.merge(source,target,options); if(result.conflicts) return result; this.mark('merge'); break;
+        case 'branch': {
+          const from=this.ref(source); if(from.repo.kind!=='local') throw new GitError('ローカル内のブランチを起点にしてください。');
+          const name=this.validName(options.name); if(Object.hasOwn(from.repo.branches,name)) throw new GitError('同じ名前のブランチがすでにあります。');
+          const sameHead=from.id===from.repo.branches[from.repo.head];if(!sameHead){this.ensureClean(from.repo);from.repo.workingFiles=copy(this.state.commits[from.id].files);from.repo.index=copy(this.state.commits[from.id].files);}
+          from.repo.branches[name]=from.id; from.repo.head=name;if(from.kind==='tracking'&&from.branch.startsWith('origin/'))from.repo.upstreams[name]=from.branch.slice(7);this.mark('branch'); result={title:'ブランチを作成しました',detail:`${from.branch} と同じ ${from.id} から ${name} を作り、チェックアウトしました。ブランチ作成だけではコミットは増えません。${from.kind==='tracking'?' リモート追跡参照を起点にしたため、upstream も設定しました。':''}`,command:`git switch -c ${name} ${from.branch}`}; break;
+        }
+        case 'checkout': { const to=this.ensureLocal(target);if(to.repo.head!==to.branch){this.ensureClean(to.repo);to.repo.head=to.branch;this.resetWorkingState(to.repo);}result={title:'チェックアウトしました',detail:`HEAD → ${to.branch}。作業フォルダとステージも、このブランチの内容になりました。`,command:`git switch ${to.branch}`}; break; }
+        case 'commit': {
+          const local=this.workingTarget(target);if(!local.initialized)throw new GitError('まず git init でGit管理を始めてください。');
+          const staged=this.workingStatus(local).staged;if(!staged.length)throw new GitError('ステージされた変更がありません。ファイルを編集してから「ステージ」を実行してください。');
+          const message=(options.message||'').trim();if(!message)throw new GitError('コミットメッセージを入力してください。');
+          const parent=local.branches[local.head],branch=local.head||'main',id=this.newCommit(parent?[parent]:[],message,local.index,branch);local.branches[branch]=id;local.head=branch;local.index=copy(this.state.commits[id].files);this.mark('commit');
+          const remaining=this.workingStatus(local).unstaged.length;
+          result={title:parent?'コミットしました':'最初のコミットを作成しました',detail:`${branch} に「${message}」 (${id}) を追加。ステージ済みの ${staged.length} ファイルを記録しました。${remaining?' ステージ後の編集は、作業フォルダに残っています。':' 作業フォルダとステージはコミット内容と同じです。'}`,command:'git commit -m '+JSON.stringify(message)};break;
+        }
+        case 'remote-commit': {
+          const to=this.ref(target);if(to.repo.kind!=='remote')throw new GitError('共同編集者が更新するリモートブランチを選んでください。');const message=(options.message||'').trim(),file=this.validFile(options.file);if(!message||typeof options.content!=='string')throw new GitError('メッセージとファイルの内容を入力してください。');
+          const files={...this.state.commits[to.id].files,[file]:options.content};if(this.state.commits[to.id].files[file]===options.content)throw new GitError('ファイルの内容が変わっていません。');
+          const id=this.newCommit([to.id],message,files,to.branch);to.repo.branches[to.branch]=id;result={title:'共同編集者がコミットしました',detail:`${to.branch} に「${message}」 (${id}) を追加。手元のファイルや origin の参照は更新されません。`,command:'# 共同編集者: '+to.branch+' にコミット'};break;
+        }
+        case 'delete': {
+          const to=this.ref(target); if(to.kind==='tracking') throw new GitError('取得済みの参照ではなくブランチを選んでください。');
+          if(to.repo.kind==='local'&&to.repo.head===to.branch) throw new GitError('作業中のブランチは削除できません。別のブランチにチェックアウトしてください。');
+          if(to.repo.kind==='remote'&&to.repo.defaultBranch===to.branch) throw new GitError('このモデルではリモートのデフォルトブランチは削除できません。');
+          if(to.repo.kind==='local'){const upstream=to.repo.upstreams[to.branch],into=upstream&&to.repo.tracking['origin/'+upstream]||to.repo.branches[to.repo.head];if(!this.isAncestor(to.id,into))throw new GitError(`${upstream?'追跡先（upstream）':'作業中のブランチ'}に未マージのコミットがあるため削除できません。先に取り込んでください。`);}
+          delete to.repo.branches[to.branch]; if(to.repo.upstreams) delete to.repo.upstreams[to.branch];
+          if(to.repo.kind==='remote') for(const r of Object.values(this.state.repos)) if(r.kind==='local'&&r.remote===to.repo.id) delete r.tracking['origin/'+to.branch];
+          result={title:'ブランチを削除しました',detail:`${to.branch} の参照を削除しました。ほかのブランチが参照しているコミットは残ります。`,command:to.repo.kind==='local'?`git branch -d ${to.branch}`:`git push origin --delete ${to.branch}`}; break;
+        }
+        case 'clone': {
+          const remote=this.repo(source.repo); if(remote.kind!=='remote') throw new GitError('リモートリポジトリを選んでください。');
+          if(this.space.remote!==remote.id) throw new GitError('このワークスペースのリモートを選んでください。'); if(this.space.local) throw new GitError('このワークスペースにはローカルがあります。フォーク先や「空のローカル」練習で試してください。');
+          const id='local-'+(++this.state.repoCounter),branch=source.branch||remote.defaultBranch;
+          if(!Object.hasOwn(remote.branches,branch)) throw new GitError('クローン元のブランチがありません。');
+          this.state.repos[id]={id,kind:'local',name:remote.name.split(' / ').pop(),branches:{[branch]:remote.branches[branch]},head:branch,defaultBranch:remote.defaultBranch,remote:remote.id,tracking:Object.fromEntries(Object.entries(remote.branches).map(([n,v])=>['origin/'+n,v])),upstreams:{[branch]:branch}};
+          this.space.local=id; this.mark('clone'); result={title:'クローンしました',detail:`全ブランチのリモート追跡参照を取得し、${branch} を手元にチェックアウトしました。origin はこのリモートを指します。`,command:`git clone --branch ${branch} https://github.com/${remote.name.replaceAll(' / ','/')}.git`}; break;
+        }
+        case 'fork': {
+          const remote=this.repo(source.repo); if(remote.kind!=='remote') throw new GitError('フォーク元のリモートを選んでください。');
+          const name=(options.name||'my-work').trim(); if(!name||name.length>32||!/^[\p{L}\p{N}_-]+$/u.test(name)) throw new GitError('所有者名には32文字以内の文字・数字・_・- を使ってください。');
+          const repoName=remote.name.split(' / ').pop(),fullName=name+' / '+repoName;
+          if(Object.values(this.state.repos).some(r=>r.kind==='remote'&&r.name===fullName)) throw new GitError('同じ所有者のフォークがすでにあります。別の名前を指定してください。');
+          const id='remote-'+(++this.state.repoCounter),sid='space-'+(++this.state.spaceCounter);
+          this.state.repos[id]={id,kind:'remote',name:fullName,branches:copy(remote.branches),defaultBranch:remote.defaultBranch,parent:remote.id};
+          this.state.spaces.push({id:sid,name:name+' / '+repoName,remote:id,local:null,fork:true,progress:[]});this.state.active=sid;
+          result={title:'フォークして作業場所を切り替えました',detail:`${fullName} は独立したリモートです。元のリポジトリもタブに残っています。次にクローンして手元の作業場所を作りましょう。`,command:'# GitHub: Fork '+remote.name}; break;
+        }
+        case 'pr': {
+          const from=this.ref(source),to=this.ref(target); if(from.repo.kind!=='remote'||to.repo.kind!=='remote') throw new GitError('PR の両端には公開済みのリモートブランチを選んでください。');
+          if(from.repo.id===to.repo.id&&from.branch===to.branch) throw new GitError('同じブランチへの PR は作成できません。');
+          const rootOf=r=>{let current=r;while(current.parent)current=this.repo(current.parent);return current.id;};
+          if(rootOf(from.repo)!==rootOf(to.repo)) throw new GitError('同じフォークネットワークのリポジトリを選んでください。');
+          if(!this.mergeBase(from.id,to.id)) throw new GitError('共通の履歴がありません。');
+          if(!this.difference(from.id,to.id).ahead) throw new GitError('提案元に新しいコミットがありません。まずコミットしてプッシュしてください。');
+          if(this.state.prs.some(p=>p.status==='open'&&p.source.repo===source.repo&&p.source.branch===source.branch&&p.target.repo===target.repo&&p.target.branch===target.branch)) throw new GitError('同じ組み合わせの PR がすでに開いています。');
+          const title=(options.message||'').trim(); if(!title) throw new GitError('PR のタイトルを入力してください。');
+          const pr={id:++this.state.prCounter,title,source:copy(source),target:copy(target),status:'open'};this.state.prs.push(pr);this.mark('pr');
+          result={title:`プルリクエスト #${pr.id} を作成しました`,detail:'変更の取り込みを提案しました。この時点では統合先もローカルも変わりません。PRカードからマージできます。',command:`# GitHub: ${from.repo.name}:${from.branch} → ${to.repo.name}:${to.branch}`}; break;
+        }
+        case 'merge-pr': {
+          const pr=this.state.prs.find(p=>p.id===options.id);if(!pr||pr.status!=='open') throw new GitError('開いている PR がありません。');
+          result=this.merge(pr.source,pr.target,{...options,remote:true}); if(result.conflicts) return result;
+          pr.status='merged';result={...result,title:`PR #${pr.id} をマージしました`,detail:result.detail+' ローカルへの反映にはフェッチ／プルが必要です。',command:`# GitHub: Merge pull request #${pr.id}`}; break;
+        }
+        default: throw new GitError('この操作はありません。');
+      }
+      this.addLog(result.title,result.detail,result.command); return result;
+    }
+    demo(empty=false) {
+      const seed=this.initial(),sid='space-'+(++this.state.spaceCounter),rid='remote-'+(++this.state.repoCounter),lid='local-'+this.state.repoCounter;
+      for(const [id,c] of Object.entries(seed.commits)) if(!this.state.commits[id]) this.state.commits[id]=copy(c);
+      this.state.repos[rid]={...copy(seed.repos['remote-1']),id:rid,name:'practice-'+this.state.spaceCounter+' / hello-git'};
+      if(!empty) this.state.repos[lid]={...copy(seed.repos['local-1']),id:lid,remote:rid};
+      this.state.spaces.push({id:sid,name:empty?'クローンの練習':'練習 '+this.state.spaceCounter,remote:rid,local:empty?null:lid,fork:false,progress:[]});this.state.active=sid;
+      this.addLog('練習用のワークスペースを追加しました','元の作業はタブに残っています。', '# 新しい練習');
+    }
+  }
+  root.GitEngine=GitEngine;root.GitError=GitError;
+  if(typeof module!=='undefined'&&module.exports) module.exports={GitEngine,GitError,copy};
+})(typeof window!=='undefined'?window:globalThis);
+
+</script>
+<script>
+/* Git Atelier: browser UI; works from file:// with no build step. */
+(function () {
+  'use strict';
+  const $ = (s,root=document) => root.querySelector(s);
+  const $$ = (s,root=document) => [...root.querySelectorAll(s)];
+  const esc = v => String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const clone = v => JSON.parse(JSON.stringify(v));
+  const paths = {
+    edit:'<path d="m15 4 5 5M4 20l5-1L21 7a3.5 3.5 0 0 0-5-5L4 14Z"/>',
+    stage:'<path d="M4 4h16v16H4ZM8 12h8m-4-4v8"/>',
+    branch:'<path d="M6 3v12a3 3 0 1 0 3 3M6 6a3 3 0 1 0 0 .01M18 3a3 3 0 1 0 0 .01M18 6v2a6 6 0 0 1-6 6H6"/>',
+    cloud:'<path d="M7 18a5 5 0 0 1-1-10 7 7 0 0 1 13 1 4.5 4.5 0 0 1-1 9Z"/>',
+    monitor:'<rect x="3" y="3" width="18" height="13" rx="2"/><path d="M8 21h8m-4-5v5"/>',
+    push:'<path d="M12 17V4m-5 5 5-5 5 5M4 16v4h16v-4"/>',
+    pull:'<path d="M12 3v13m-5-5 5 5 5-5M4 16v4h16v-4"/>',
+    fetch:'<path d="M18 7h-3l-3 4-3-4H6M12 3v8M5 14l-2 7h18l-2-7h-5l-2 3-2-3Z"/>',
+    sync:'<path d="M20 10a8 8 0 0 0-14-5L3 8m0-5v5h5M4 14a8 8 0 0 0 14 5l3-3m0 5v-5h-5"/>',
+    merge:'<circle cx="6" cy="4" r="2"/><circle cx="18" cy="4" r="2"/><circle cx="6" cy="20" r="2"/><path d="M6 6v12M18 6v3a6 6 0 0 1-6 6H6"/>',
+    clone:'<rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V3H3v13h5"/>',
+    fork:'<circle cx="6" cy="4" r="2"/><circle cx="18" cy="4" r="2"/><circle cx="12" cy="20" r="2"/><path d="M6 6v2a6 6 0 0 0 6 6m6-8v2a6 6 0 0 1-6 6v4"/>',
+    pr:'<circle cx="6" cy="4" r="2"/><circle cx="6" cy="20" r="2"/><circle cx="18" cy="20" r="2"/><path d="M6 6v12M18 18V9a5 5 0 0 0-5-5h-2m3-3-3 3 3 3"/>',
+    commit:'<circle cx="12" cy="12" r="5"/><path d="M2 12h5m10 0h5"/>',
+    publish:'<path d="M12 16V3m-4 4 4-4 4 4M5 12v8h14v-8"/>',
+    delete:'<path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7m4-7v7"/>',
+    checkout:'<path d="M3 12h17m-6-6 6 6-6 6M4 5v14"/>',
+    reset:'<path d="M3 11a9 9 0 1 1 3 8M3 4v7h7"/>',
+    undo:'<path d="m8 3-5 5 5 5M3 8h10a7 7 0 0 1 0 14"/>',
+    redo:'<path d="m16 3 5 5-5 5m5-5H11a7 7 0 0 0 0 14"/>',
+    help:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 4 2L12 12v2m0 3h.01"/>',
+    spark:'<path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5ZM20 2v4m-2-2h4"/>',
+    layers:'<path d="m12 3 10 5-10 5L2 8Zm-10 9 10 5 10-5M2 17l10 5 10-5"/>',
+    terminal:'<rect x="2" y="3" width="20" height="18" rx="3"/><path d="m6 8 4 4-4 4m7 0h5"/>',
+    sliders:'<path d="M4 3v6m0 4v8M12 3v10m0 4v4M20 3v2m0 4v12M1 9h6m2 8h6m2-12h6"/>',
+    bulb:'<path d="M9 18h6m-5 3h4M8 14a7 7 0 1 1 8 0l-1 2H9Z"/>',
+    book:'<path d="M12 5c-4-3-8-2-10-1v15c4-2 7-1 10 1m0-15c4-3 8-2 10-1v15c-4-2-7-1-10 1Z"/>',
+    cursor:'<path d="m4 3 16 10-8 1-3 7Z"/>',
+    check:'<path d="m5 12 4 4L19 6"/>',
+    close:'<path d="m6 6 12 12M6 18 18 6"/>',
+    link:'<path d="m9 15 6-6m-6-2 3-3a5 5 0 0 1 7 7l-3 3m-1 3-3 3a5 5 0 0 1-7-7l3-3"/>',
+    info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10h.01"/>',
+    folder:'<path d="M3 6h6l2 2h10v12H3ZM3 6V3h7l2 3"/>',
+    warning:'<path d="m12 3 10 18H2Zm0 6v5m0 3h.01"/>'
+  };
+  const icon = name => `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${paths[name]||paths.branch}</svg>`;
+  const definitions = {
+    edit:{label:'ファイルを編集',en:'edit',icon:'edit',target:'localWorktree',desc:'作業フォルダのファイルを編集して保存します。',hint:'保存しただけではステージ・コミットは変わりません。作業中（HEAD）のローカルを選びます。'},
+    stage:{label:'ステージ',en:'add',icon:'stage',target:'localWorktree',desc:'次のコミットに含めるファイルを選び、今の内容をステージへ記録します。',hint:'ステージ後に編集した内容は、もう一度ステージするまでコミットには入りません。'},
+    init:{label:'Git管理を開始',en:'init',icon:'folder',target:'localRepo',desc:'PCにあるプロジェクトを、Gitで管理しはじめます。',hint:'最初のコミットは、初期化が終わってから作ります。'},
+    'create-remote':{label:'GitHubにリポジトリ作成',en:'new repository',icon:'cloud',target:'emptyRemote',desc:'GitHubに空のリポジトリを作成します。',hint:'ここではREADMEなどを追加せず、空の状態で作成します。',github:true},
+    connect:{label:'originを設定',en:'remote add origin',icon:'link',source:'remoteRepo',target:'localRepo',desc:'GitHubのリポジトリを、手元のリポジトリの接続先として登録します。',hint:'URLを登録する操作です。コミットの送信は、次の「ブランチを公開」で行います。'},
+    push:{label:'プッシュ',en:'push',icon:'push',source:'localBranch',target:'remoteAny',desc:'ローカルのコミットをリモートへ送ります。ローカルとリモートのブランチを画面上から選んでください。',hint:'リモート本体を選ぶと、同じ名前のブランチに送れます。'},
+    pull:{label:'プル',en:'pull',icon:'pull',source:'remoteBranch',target:'localBranch',desc:'リモートから取得し、作業中のローカルブランチへ統合します。',hint:'このモデルのプルは fetch + merge。統合先はチェックアウト中のブランチです。'},
+    fetch:{label:'フェッチ',en:'fetch',icon:'fetch',source:'remoteAny',target:'localAny',desc:'リモートの履歴を取得します。手元のブランチはそのまま、origin の参照だけが更新されます。',hint:'ローカル本体かブランチを、取得先としてクリックしてください。'},
+    sync:{label:'シンク',en:'sync',icon:'sync',source:'localBranch',target:'remoteBranch',desc:'プル → プッシュを続けて実行し、ローカルとリモートの履歴をそろえます。',hint:'sync はGUIで使われる操作名です。このモデルでは pull + push として扱います。'},
+    merge:{label:'マージ',en:'merge',icon:'merge',source:'localRef',target:'localBranch',desc:'選んだ履歴を、作業中のブランチに取り込みます。',hint:'変更を取り込むブランチは、先にチェックアウトしてください。'},
+    commit:{label:'コミット',en:'commit',icon:'commit',target:'localWorktree',desc:'ステージ済みの内容を、メッセージと一緒にコミットします。',hint:'この操作ではファイルを編集しません。ステージした内容だけが記録されます。'},
+    'remote-commit':{label:'共同編集者が更新',en:'remote commit',icon:'cloud',target:'remoteBranch',desc:'別の人がリモートへコミットした状況を再現します。',hint:'手元のファイルは変わりません。反映するにはフェッチやプルを使います。'},
+    branch:{label:'ブランチを作成',en:'switch -c',icon:'branch',source:'localRef',desc:'既存の履歴から新しいブランチを作り、チェックアウトします。',hint:'ブランチはコミットへの参照。新しいコミットはまだ増えません。'},
+    checkout:{label:'チェックアウト',en:'switch',icon:'checkout',target:'localBranch',desc:'作業するローカルブランチを切り替えます。',hint:'選択とチェックアウトは別の操作です。HEAD が作業中のブランチを表します。'},
+    publish:{label:'ブランチを公開',en:'push -u',icon:'publish',source:'localBranch',target:'remoteRepo',desc:'ローカルブランチをリモートへ送り、追跡先（upstream）も設定します。',hint:'リモートリポジトリ本体を選びます。同じ名前で公開します。'},
+    delete:{label:'ブランチを削除',en:'branch -d / push --delete',icon:'delete',target:'anyBranch',desc:'選んだブランチの参照を削除します。実行前に対象を確認してください。',hint:'ローカルとリモートは別のブランチです。作業中・未マージのローカルブランチは削除できません。'},
+    clone:{label:'クローン',en:'clone',icon:'clone',source:'remoteAny',target:'empty',desc:'リモートを手元へ複製し、ローカルリポジトリを作ります。',hint:'空のローカルが必要です。フォーク先、または使い方の「クローンの練習」で試せます。'},
+    fork:{label:'フォーク',en:'fork',icon:'fork',source:'remoteRepo',desc:'別の所有者のリモートを作り、新しいワークスペースタブへ切り替えます。',hint:'フォークはGitHubの機能。ローカルは作られないので、続けてクローンします。',github:true},
+    pr:{label:'プルリクエスト',en:'pull request',icon:'pr',source:'remoteBranch',target:'remoteBranch',desc:'公開済みのブランチから、変更の取り込みを提案します。作成だけではマージされません。',hint:'提案元はプッシュ済みのリモートブランチ、取り込み先は main などのリモートブランチです。',github:true}
+  };
+  const storageKey='git-atelier-state-v1';
+  const executeLabels={
+    edit:'編集を保存',stage:'ステージする',commit:'コミットする',
+    init:'Git管理を開始する','create-remote':'リポジトリを作成する',connect:'originを設定する',
+    push:'プッシュする',pull:'プルする',fetch:'フェッチする',sync:'シンクする',merge:'マージする',
+    branch:'ブランチを作成する',checkout:'チェックアウトする',publish:'ブランチを公開する',delete:'ブランチを削除する',
+    clone:'クローンする',fork:'フォークを作成',pr:'プルリクエストを作成','remote-commit':'リモートにコミット'
+  };
+  let engine, storageOK=true, loadFailed=false;
+  try { const saved=localStorage.getItem(storageKey); engine=new GitEngine(saved?JSON.parse(saved):undefined);if(!saved)engine.state.entryPending=true; }
+  catch { engine=new GitEngine();engine.state.entryPending=true;loadFailed=true; }
+  const undo=[],redo=[];
+  function defaultSelection(){const id=engine.space.local||engine.space.remote,r=engine.repo(id);return r.head&&r.branches[r.head]?{repo:id,kind:'branch',branch:r.head}:{repo:id,kind:'repo'};}
+  let selected=defaultSelection(),startChoiceRequired=false;
+  let op=null, lastFocus=null, toastTimer=null, flowTimer=null;
+  const panel=$('#operation-panel');
+  const mobile=window.matchMedia('(max-width: 760px)');
+  function fitToolbox(){
+    if(mobile.matches)return;
+    const topGap=Math.max(0,$('.workspace-bar').getBoundingClientRect().bottom);
+    $('#toolbox').style.setProperty('--toolbox-top-gap',`${topGap}px`);
+  }
+  function toolbox(open,focus=true){
+    if(open&&!mobile.matches)return;
+    document.body.classList.toggle('mobile-tools-open',open);$('#mobile-tool-backdrop').hidden=!open;$('#mobile-tools').setAttribute('aria-expanded',String(open));
+    for(const el of $$('.workspace-bar,.main-column,.mobile-dock'))el.inert=open;
+    const aside=$('#toolbox');
+    if(open){aside.setAttribute('role','dialog');aside.setAttribute('aria-modal','true');aside.setAttribute('aria-labelledby','toolbox-title');if(focus)$('#mobile-tool-close').focus({preventScroll:true});}
+    else{aside.removeAttribute('role');aside.removeAttribute('aria-modal');aside.removeAttribute('aria-labelledby');if(focus&&mobile.matches)$('#mobile-tools').focus({preventScroll:true});}
+  }
+  function scrollToRepo(kind){const card=$('.repo-card.'+kind);if(card&&mobile.matches)card.scrollIntoView({block:'start',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});}
+  function revealPickTarget(){if(!op||!mobile.matches||!op.picking)return;const type=definitions[op.action][op.active];if(type?.startsWith('remote')||type==='emptyRemote')scrollToRepo('remote');else if(type?.startsWith('local')||type==='empty')scrollToRepo('local');}
+  const needsInput=action=>['edit','stage','commit','remote-commit','branch','fork','pr','create-remote'].includes(action);
+  function persist() {
+    try {localStorage.setItem(storageKey,JSON.stringify(engine.state));storageOK=true;} catch {storageOK=false;}
+    $('#save-status').innerHTML=`<i></i> ${storageOK?'このブラウザに自動保存':'保存できないため、この画面内で保持中'}`;
+  }
+  function snapshot(){return clone(engine.state);}
+  function remember(before){undo.push(before);if(undo.length>35)undo.shift();redo.length=0;}
+  function toast(message,error=false){clearTimeout(toastTimer);const el=$('#toast');el.innerHTML=icon(error?'warning':'check')+`<span>${esc(message)}</span>`;el.classList.toggle('error',error);el.hidden=false;toastTimer=setTimeout(()=>el.hidden=true,4200);}
+  function key(t){return t?[t.repo,t.kind||'branch',t.branch||''].join('|'):'';}
+  function same(a,b){return key(a)===key(b);}
+  function targetLabel(t){if(!t)return '';if(t.kind==='empty')return '空のローカル';if(t.kind==='emptyRemote')return 'GitHub上の新しいリポジトリ';const r=engine.state.repos[t.repo];return r?(r.kind==='local'?'ローカル':r.name)+(t.branch?' / '+t.branch:'（本体）'):'対象がありません';}
+  function refExists(t){if(!t)return false;if(t.kind==='empty')return !engine.space.local&&t.repo==='empty:'+engine.space.id;if(t.kind==='emptyRemote')return !engine.space.remote&&t.repo==='empty-remote:'+engine.space.id;const r=engine.state.repos[t.repo];return !!r&&(!t.branch||Object.hasOwn(t.kind==='tracking'?r.tracking||{}:r.branches,t.branch));}
+  function matches(type,t){
+    if(!t)return false;if(type==='empty')return t.kind==='empty';if(type==='emptyRemote')return t.kind==='emptyRemote';const r=engine.state.repos[t.repo];if(!r)return false;
+    const real=!!t.branch&&t.kind!=='tracking',local=r.kind==='local',remote=r.kind==='remote';
+    return ({localBranch:local&&real,remoteBranch:remote&&real,anyBranch:real,localWorktree:local&&(!t.branch||real),localRef:local&&!!t.branch,localAny:local,localRepo:local&&!t.branch,remoteAny:remote,remoteRepo:remote&&!t.branch})[type]||false;
+  }
+  function targetAttributes(t){let cls=same(t,selected)?' selected':'';
+    if(op){const def=definitions[op.action];if(matches(def[op.active],t))cls+=' pickable';if(same(op.source,t))cls+=' pick-source';if(same(op.target,t))cls+=' pick-target';}
+    return {attrs:`data-ref="${esc(JSON.stringify(t))}"`,cls};
+  }
+  function renderTabs(){
+    $('#workspace-tabs').innerHTML=engine.state.spaces.map(s=>`<button class="workspace-tab" role="tab" aria-selected="${s.id===engine.state.active}" tabindex="${s.id===engine.state.active?0:-1}" data-space="${esc(s.id)}" aria-label="${esc(s.name)}${s.fork?'、フォーク':''}">${icon(s.fork?'fork':'folder')}<span>${esc(s.name)}</span>${s.fork?'<span class="fork-tag">FORK</span>':''}</button>`).join('');
+    $('#workspace-label').textContent=engine.repo(engine.space.remote||engine.space.local).name;
+  }
+  function chip(r,name,id,tracking=false){const t={repo:r.id,kind:tracking?'tracking':'branch',branch:name},a=targetAttributes(t),feature=name.replace('origin/','')!=='main';const head=!tracking&&r.head===name;
+    return `<button class="branch-chip${feature?' feature':''}${tracking?' tracking':''}${a.cls}" ${a.attrs} title="${esc(name)} · ${esc(id)}${head?' · 作業中':''}" aria-label="${esc(name)}${head?' HEAD':''}" aria-pressed="${same(t,selected)}">${icon(tracking?'link':'branch')}<span class="branch-name">${esc(name)}</span>${head?'<span class="head-pill">HEAD</span>':''}${!tracking&&r.kind==='local'&&!r.upstreams[name]?'<span class="unpublished" title="upstream 未設定"></span>':''}</button>`;
+  }
+  function graph(r){
+    if(!Object.keys(r.branches).length&&!Object.keys(r.tracking||{}).length)return `<div class="graph-empty">${icon('commit')}<strong>まだコミットはありません</strong><span>${r.kind==='remote'?'公開すると、ここに履歴が届きます。':r.initialized===false?'まずはGit管理を始めましょう。':'最初のコミットを作りましょう。'}</span></div>`;
+    const refs=[...Object.entries(r.branches).map(([name,id])=>({name,id,tracking:false})),...Object.entries(r.tracking||{}).map(([name,id])=>({name,id,tracking:true}))];
+    const reachable=new Set();refs.forEach(ref=>engine.ancestors(ref.id).forEach(id=>reachable.add(id)));
+    const commits=[...reachable].map(id=>engine.state.commits[id]).sort((a,b)=>a.order-b.order);
+    const levels={},lanes={};let nextLane=1;
+    let primary=r.branches.main||r.branches[r.defaultBranch]||r.branches[r.head]||refs[0]?.id;
+    const trackedMain=r.tracking?.['origin/main'];if(trackedMain&&engine.isAncestor(primary,trackedMain))primary=trackedMain;
+    const primaryPath=new Set();let p=primary;while(p){primaryPath.add(p);p=engine.state.commits[p].parents[0];}
+    commits.forEach(c=>{levels[c.id]=c.parents.length?Math.max(...c.parents.map(p=>levels[p]??0))+1:0;if(primaryPath.has(c.id)){lanes[c.id]=0;}else{const prev=c.parents.find(p=>!primaryPath.has(p));lanes[c.id]=prev!==undefined?lanes[prev]:nextLane++;}});
+    const maxLevel=Math.max(0,...Object.values(levels)),maxLane=Math.max(0,...Object.values(lanes)),width=Math.max(340,100+maxLevel*91),height=Math.max(221,110+maxLane*85);
+    const pos=id=>({x:45+levels[id]*91,y:68+lanes[id]*85});
+    let svg=`<svg class="commit-graph" viewBox="0 0 ${width} ${height}" style="min-width:${width}px;height:${height}px" role="img" aria-label="${r.kind==='remote'?'リモート':'ローカル'}のコミット履歴。左が過去、右が新しいコミット。丸を押すと内容を表示します。"><title>コミットのつながり</title>`;
+    commits.forEach(c=>{const end=pos(c.id);c.parents.forEach(parent=>{if(!reachable.has(parent))return;const start=pos(parent),feature=c.lane!=='main'||engine.state.commits[parent].lane!=='main';svg+=`<path class="graph-edge ${feature?'feature':'main'}" d="M ${start.x} ${start.y} C ${start.x+40} ${start.y} ${end.x-40} ${end.y} ${end.x} ${end.y}"/>`;});});
+    commits.forEach(c=>{const {x,y}=pos(c.id),names=refs.filter(r=>r.id===c.id),feature=c.lane!=='main';svg+=`<g class="commit-node ${feature?'feature':'main'}" tabindex="0" role="button" data-commit="${esc(c.id)}" aria-label="コミット ${esc(c.id)}: ${esc(c.message)}"><title>${esc(c.message)} (${esc(c.id)})</title>${names.length?`<circle class="node-halo" cx="${x}" cy="${y}" r="14"/>`:''}<circle cx="${x}" cy="${y}" r="6"/><text class="commit-id" x="${x}" y="${y+24}" text-anchor="middle">${c.id.slice(0,7)}</text><text class="commit-message" x="${x}" y="${y+39}" text-anchor="middle">${esc(c.message.length>10?c.message.slice(0,9)+'…':c.message)}</text>${names.length?`<text class="node-tip ${feature?'feature':''}" x="${x}" y="${y-24}" text-anchor="middle">${esc(names.map(n=>n.name).join(' · '))}</text>`:''}</g>`;});
+    svg+='</svg>';return svg;
+  }
+  function prsFor(r){const list=engine.state.prs.filter(p=>p.target.repo===r.id);if(!list.length)return '';return `<div class="pr-section"><div class="pr-heading">${icon('pr')} PULL REQUESTS</div>${list.slice().reverse().map(p=>`<div class="pr-card"><div class="pr-card-title ${p.status==='merged'?'merged':''}">${icon(p.status==='merged'?'merge':'pr')}<strong>#${p.id} ${esc(p.title)}</strong></div><p>${esc(engine.repo(p.source.repo).name)}:${esc(p.source.branch)} → ${esc(p.target.branch)}</p>${p.status==='open'?`<button class="secondary-button" data-merge-pr="${p.id}">${icon('merge')}確認してマージ</button>`:'<p>マージ済み · ローカルへの反映はプルで</p>'}</div>`).join('')}</div>`;}
+  function workingPanel(repo){
+    const status=engine.workingStatus(repo),required=engine.requiredAction(),labels={added:'新規',modified:'変更',deleted:'削除'};
+    const rows=changes=>changes.length?changes.map(c=>`<div class="working-file"><code>${esc(c.file)}</code><span class="file-change-kind">${labels[c.kind]}</span></div>`).join(''):'<p class="files-clean">変更はありません</p>';
+    return `<div class="file-workflow"><div class="file-flow-title"><span>${icon('edit')}編集</span><i>→</i><span>${icon('stage')}ステージ</span><i>→</i><span>${icon('commit')}コミット</span></div><div class="file-zones"><section class="file-zone working"><div class="file-zone-heading"><strong>作業フォルダ</strong><span>${status.unstaged.length} 件</span></div><div class="file-status-list" data-working-changes>${rows(status.unstaged)}</div><button class="text-button" data-open="edit" data-working-repo="${esc(repo.id)}" ${required&&required!=='edit'?'disabled':''}>${icon('edit')}ファイルを編集</button></section><section class="file-zone staged"><div class="file-zone-heading"><strong>ステージ済み</strong><span>${status.staged.length} 件</span></div><div class="file-status-list" data-staged-changes>${rows(status.staged)}</div><button class="text-button" data-open="stage" data-working-repo="${esc(repo.id)}" ${!status.unstaged.length||(required&&required!=='stage')?'disabled':''}>${icon('stage')}ステージする</button></section></div><p class="file-workflow-note">${Object.keys(repo.workingFiles).length} ファイル · ステージには、追加した時点の内容を記録します。</p></div>`;
+  }
+  function repoCard(id,kind){
+    if(!id){const remote=kind==='remote',t={repo:(remote?'empty-remote:':'empty:')+engine.space.id,kind:remote?'emptyRemote':'empty'},a=targetAttributes(t),action=remote?'create-remote':'clone',blocked=engine.requiredAction()&&engine.requiredAction()!==action;
+      return `<article class="repo-card ${kind} empty ${a.cls}" aria-label="${remote?'未作成のリモート':'空のローカル'}"><button class="repo-top${a.cls}" ${a.attrs}><span class="repo-icon">${icon(remote?'cloud':'monitor')}</span><span class="repo-title-group"><span class="repo-eyebrow">${remote?'REMOTE':'LOCAL'} REPOSITORY</span><span class="repo-title">${remote?'リモート':'ローカル'}</span></span><span class="repo-badge">${remote?'not created':'empty'}</span></button><div class="repo-empty">${icon(remote?'cloud':'clone')}<strong>${remote?'GitHubには、まだありません。':'まだ、手元にはありません。'}</strong><p>${remote?'PCの最初のコミットを作ったら、GitHubにリポジトリを作成します。':'クローンすると、ここにブランチとコミットの履歴が現れます。'}</p><button class="secondary-button" data-open="${action}" ${blocked?'disabled':''}>${icon(remote?'cloud':'clone')}${remote?'空のリポジトリを作成':'クローンしてはじめる'}</button></div></article>`;
+    }
+    const r=engine.repo(id),remote=kind==='remote',t={repo:id,kind:'repo'},a=targetAttributes(t),branchNames=Object.keys(r.branches);
+    let status=remote?'GitHub 上のリポジトリ':'このPCの作業場所',statusRight=remote?(engine.space.local&&engine.repo(engine.space.local).remote===id?'origin':'接続前'):r.head?`HEAD → ${r.head}`:'コミットなし';
+    if(!remote){const upstream=r.upstreams[r.head],tracking=upstream&&r.tracking['origin/'+upstream];if(tracking){const d=engine.difference(r.branches[r.head],tracking);status=`取得済みの origin/${upstream} 比: ↑${d.ahead} ↓${d.behind}`;}else status='未公開のブランチ · upstream 未設定';}
+    if(!remote&&r.initialized===false){status='ファイルはあります · Git管理はまだです';statusRight='git init が必要';}
+    else if(!remote&&!branchNames.length)status='Git初期化済み · 最初のコミットを待っています';
+    else if(!remote&&!r.remote)status='ローカルのみ · origin未設定';
+    const projectFiles=!remote?workingPanel(r):'';
+    return `<article class="repo-card ${kind}${same(t,selected)?' selected-repo':''}" aria-label="${remote?'リモート':'ローカル'}リポジトリ"><button class="repo-top${a.cls}" ${a.attrs}><span class="repo-icon">${icon(remote?'cloud':'monitor')}</span><span class="repo-title-group"><span class="repo-eyebrow">${remote?'REMOTE REPOSITORY':'LOCAL REPOSITORY'}</span><span class="repo-title">${remote?'リモート':r.initialized===false?'PCのプロジェクト':'ローカル'} <span style="font-size:11px;font-weight:400;color:#98a38f">${remote&&engine.space.local&&engine.repo(engine.space.local).remote===id?' / origin':''}</span></span></span><span class="repo-badge">${remote?'GitHub':r.initialized===false?'Git未初期化':'your computer'}</span></button><div class="repo-url">${icon(remote?'link':'folder')}${esc(remote?'github.com/'+r.name.replaceAll(' / ','/'):'~/projects/'+r.name)}</div>${r.parent?`<div class="fork-parent">${icon('fork')}Forked from ${esc(engine.repo(r.parent).name)}</div>`:''}${projectFiles}<div class="branches-section"><div class="branches-heading">BRANCHES <span>${branchNames.length} ${branchNames.length===1?'branch':'branches'}</span></div><div class="branch-list">${branchNames.map(n=>chip(r,n,r.branches[n])).join('')||'<span class="empty-hint">最初のコミット後に main が現れます</span>'}</div>${!remote&&r.remote?`<div class="tracking-label">${icon('fetch')}リモート追跡参照 · 最後に取得した状態</div><div class="branch-list">${Object.entries(r.tracking).map(([n,id])=>chip(r,n,id,true)).join('')||'<span class="empty-hint">まだ取得していません</span>'}</div>`:''}</div><div class="graph-heading"><span>COMMIT HISTORY</span><span>丸を押すと、内容を表示</span></div><div class="commit-graph-wrap">${graph(r)}</div><div class="graph-timeline"><span>← 過去</span><span>新しいコミット →</span></div><div class="repo-bottom"><span>${icon(remote?'cloud':'branch')}${esc(status)}</span><span class="mono">${esc(statusRight)}</span></div>${remote?prsFor(r):''}</article>`;
+  }
+  function renderRepos(){const scrolls=$$('.commit-graph-wrap').map(e=>e.scrollLeft);$('#repositories').innerHTML=repoCard(engine.space.remote,'remote')+repoCard(engine.space.local,'local');$$('.commit-graph-wrap').forEach((e,i)=>e.scrollLeft=scrolls[i]||0);}
+  function renderGuide(){
+    const localStart=engine.space.startKind==='local',githubStart=engine.space.startKind==='github',required=engine.requiredAction();
+    const steps=localStart?[['init','Git初期化'],['edit','編集'],['stage','ステージ'],['commit','初回コミット'],['create-remote','GitHub作成'],['connect','origin設定'],['publish','公開']]:githubStart?[['clone','取得'],['edit','編集'],['stage','ステージ'],['commit','コミット']]:[['fetch','フェッチで取得'],['checkout','main に切替'],['pull','プルで統合']];
+    $('#guide-title').textContent=required?'次の操作：'+definitions[required].label:localStart||githubStart?'初期設定完了':'取得・切替・統合の手順';
+    $('#guide-description').textContent=localStart?'ローカル作成からGitHub公開まで':githubStart?'GitHubから取得して編集・コミット':'フェッチ・チェックアウト・プル';
+    $('#guide-steps').innerHTML=steps.map(([action,label],i)=>{const done=action==='checkout'?engine.space.local&&engine.repo(engine.space.local).head==='main':engine.space.progress.includes(action);return `${i?'<span class="guide-arrow">→</span>':''}<button class="guide-step ${done?'done':''}${required===action?' current':''}" data-guide="${action}" title="${esc(label)}" ${(required&&required!==action)||((localStart||githubStart)&&done)?'disabled':''}><span class="number">${done?'✓':i+1}</span><span>${esc(label)}</span></button>`;}).join('');
+  }
+  function setGuideVisible(visible){
+    $('#tutorial-guide').hidden=!visible;
+    $('#guide-show').hidden=visible;
+    $(visible?'#guide-hide':'#guide-show').focus({preventScroll:true});
+  }
+  function renderSelection(){const el=$('#selection-bar');if(!refExists(selected))selected=null;el.innerHTML=icon('cursor')+(selected?`<span>選択中：<strong>${esc(targetLabel(selected))}</strong></span>${selected.branch?`<span class="selection-detail">${esc(engine.ref(selected).id)}</span>`:''}${selected.branch&&selected.kind!=='tracking'&&engine.repo(selected.repo).kind==='local'&&engine.repo(selected.repo).head!==selected.branch?'<button class="text-button" data-open="checkout">このブランチに切り替える →</button>':''}`:'<span>リポジトリ本体やブランチをクリックして、操作する場所を選べます。</span>');}
+  function renderLog(){$('#log-count').textContent=engine.state.log.length;$('#activity-log').innerHTML=engine.state.log.map(l=>`<div class="log-entry ${esc(l.type)}"><span class="log-time">${esc(l.time)}</span><span class="log-dot"></span><div><div class="log-title">${esc(l.title)}</div><p class="log-detail">${esc(l.detail)}</p><div class="log-command">${esc(l.command)}</div></div></div>`).join('');$('#undo-button').disabled=!undo.length;$('#redo-button').disabled=!redo.length;}
+  function renderButtons(){const required=engine.requiredAction(),groups=[...(required&&engine.space.startKind==='local'?[['プロジェクトの準備',['init','create-remote','connect']]]:[]),['ファイルとコミット',['edit','stage','commit']],['リモートとつなぐ',['push','pull','fetch','sync']],['ブランチと履歴',['merge','branch','checkout','publish','delete']],['リポジトリを広げる',['clone','fork','pr','remote-commit']]];$('#operation-buttons').innerHTML=groups.map(([label,actions])=>`<div class="operation-group-label">${label}</div>${actions.map(a=>{const d=definitions[a];return `<button class="operation-button ${a}${op?.action===a?' active':''}${['branch','checkout','publish','delete'].includes(a)?' compact':''}" data-open="${a}" aria-pressed="${op?.action===a}" ${required&&required!==a?'disabled':''}><span class="op-icon">${icon(d.icon)}</span><span><span class="operation-label">${d.label}</span><span class="operation-english">${d.en}</span></span><span class="op-arrow">↗</span>${d.github?'<span class="github-badge">GitHub</span>':''}</button>`;}).join('')}`).join('');}
+  function render(){renderTabs();renderButtons();renderGuide();renderRepos();renderSelection();renderLog();persist();if(op)renderPanel();}
+  function populateFiles(){if(!op?.target)return;try{const repo=engine.repo(op.target.repo);if(op.action==='stage')op.values.files=engine.workingStatus(repo).unstaged.map(c=>c.file);else if(op.action==='commit'){if(!repo.head)op.values.message='最初のコミット';}else if(['edit','remote-commit'].includes(op.action)){const files=op.action==='edit'?repo.workingFiles:engine.state.commits[engine.ref(op.target).id].files;op.values.file=Object.hasOwn(files,'README.md')?'README.md':Object.keys(files)[0]||'README.md';op.values.content=files[op.values.file]||'';}}catch{/* Selection can be incomplete. */}}
+  function openOperation(action){if(!definitions[action])return;const required=engine.requiredAction();if(required&&required!==action){toast('まず「'+definitions[required].label+'」を実行しましょう。',true);return;}toolbox(false,false);const d=definitions[action];op={action,source:null,target:null,active:d.source?'source':'target',values:{name:action==='fork'?'my-work':action==='branch'?'feature/new-idea':action==='create-remote'?'hello-git':'',message:action==='pr'?'デザインの改善':action==='commit'?'ページを更新':'',file:'README.md',content:''},error:''};
+    if(action==='remote-commit')op.values.message='共同編集者の更新';else if(action==='commit')op.values.message='変更を記録';
+    if(refExists(selected)){if(d.source&&matches(d.source,selected))op.source=clone(selected);else if(d.target&&matches(d.target,selected))op.target=clone(selected);}
+    op.active=d.source&&!op.source?'source':d.target&&!op.target?'target':d.source?'source':'target';populateFiles();op.picking=mobile.matches&&(!targetsReady()||!needsInput(action));document.body.classList.add('has-operation');renderButtons();renderRepos();renderPanel();panel.hidden=false;$('#operation-title').focus({preventScroll:true});revealPickTarget();
+  }
+  function closeOperation(){op=null;panel.hidden=true;panel.innerHTML='';document.body.classList.remove('has-operation');renderButtons();renderRepos();}
+  function field(name,label,placeholder,value,tag='input',type='text'){return `<label class="op-form-field">${label}${tag==='textarea'?`<textarea data-input="${name}" placeholder="${esc(placeholder)}" rows="3">${esc(value)}</textarea>`:`<input data-input="${name}" type="${type}" value="${esc(value)}" placeholder="${esc(placeholder)}" maxlength="${name==='name'?'64':'160'}" autocomplete="off">`}</label>`;}
+  function fillSampleEdit(){
+    if(op?.action!=='edit'||!op.target)return;
+    const input=$('[data-input="content"]',panel);if(!input)return;
+    const notes=['使い方の説明を追記しました。','確認用の項目を追加しました。','作業メモを更新しました。','表示するメッセージを変更しました。'];
+    const note=notes[Math.floor(Math.random()*notes.length)];
+    input.value+=(input.value&&!input.value.endsWith('\n')?'\n':'')+note+'\n';
+    input.dispatchEvent(new Event('input',{bubbles:true}));
+    input.scrollTop=input.scrollHeight;
+  }
+  function pickPrompt(type){return {localBranch:'ローカルのブランチを選択',remoteBranch:'リモートのブランチを選択',anyBranch:'ブランチを選択',localWorktree:'ローカルを選択',localRef:'ローカルのブランチや取得済みの参照を選択',localAny:'ローカルを選択',localRepo:'ローカルのリポジトリを選択',remoteAny:'リモートを選択',remoteRepo:'リモートのリポジトリを選択',empty:'空のローカルを選択',emptyRemote:'未作成のリモートを選択'}[type];}
+  function fieldPick(slot){const chosen=op[slot];return `<button class="pick-field ${slot} ${op.active===slot?'current':''}" data-slot="${slot}" aria-pressed="${op.active===slot}"><span class="field-info"><span class="${chosen?'field-value':'field-placeholder'}">${chosen?esc(targetLabel(chosen)):pickPrompt(definitions[op.action][slot])}</span></span>${chosen?'<span class="field-check">✓</span>':''}</button>`;}
+  function targetsReady(){const d=definitions[op.action];return(!d.source||!!op.source)&&(!d.target||!!op.target);}
+  function canExecute(){if(!targetsReady())return false;if(op.action==='stage')return !!op.values.files?.length;if(op.action==='commit')return !!engine.workingStatus(op.target.repo).staged.length;return true;}
+  function commandPreview(){if(!op)return '';const a=op.action,s=op.source?.branch||'<from>',t=op.target?.branch||'<to>',n=op.values.name||'<name>';return ({edit:'# ファイルを編集: '+op.values.file,stage:'git add -- '+(op.values.files||[]).map(file=>JSON.stringify(file)).join(' '),commit:'git commit -m '+JSON.stringify(op.values.message),'remote-commit':'# 共同編集者: '+t+' にコミット',init:'git init -b main','create-remote':'# GitHub: '+n+' を空で作成',connect:'git remote add origin '+(op.source?'https://github.com/'+engine.repo(op.source.repo).name.replaceAll(' / ','/')+'.git':'<GitHub URL>'),push:`git push origin ${s}${op.target?.branch&&t!==s?':'+t:''}`,pull:`git switch ${t}\ngit pull --no-rebase origin ${s}`,fetch:`git fetch origin${op.source?.branch?' '+s:''}`,sync:`git pull --no-rebase origin ${t}\ngit push origin ${s}:${t}`,merge:`git switch ${t}\ngit merge ${s}`,publish:`git push -u origin ${s}`,branch:`git switch -c ${n} ${s}`,checkout:`git switch ${t}`,delete:op.target&&engine.state.repos[op.target.repo]?.kind==='remote'?`git push origin --delete ${t}`:`git branch -d ${t}`,clone:'git clone <origin-url>',fork:'# GitHub 上でフォークを作成',pr:'# GitHub 上で Pull Request を作成'})[a];}
+  function renderPanel(){
+    if(!op)return;const d=definitions[op.action];panel.classList.toggle('mobile-picking',!!op.picking);let fields='';if(['branch','fork','create-remote'].includes(op.action))fields+=field('name',op.action==='fork'?'新しいリモートの所有者名':op.action==='create-remote'?'新しいリポジトリ名':'新しいブランチ名',op.action==='fork'?'my-work':op.action==='create-remote'?'hello-git':'feature/new-idea',op.values.name);
+    if(['commit','remote-commit','pr'].includes(op.action))fields+=field('message',op.action==='pr'?'PR タイトル':'コミットメッセージ','変更の内容',op.values.message);
+    if(['edit','remote-commit'].includes(op.action)){
+      let names=[];try{const r=engine.repo(op.target.repo);names=Object.keys(op.action==='edit'?r.workingFiles:engine.state.commits[engine.ref(op.target).id].files);}catch{/* No target selected yet. */}
+      fields+=field('file','ファイル名（新規ファイルも作れます）','README.md',op.values.file).replace('<input','<input list="editor-file-names"')+`<datalist id="editor-file-names">${names.map(name=>`<option value="${esc(name)}"></option>`).join('')}</datalist>`+field('content','ファイルの内容','新しい内容を入力',op.values.content,'textarea');
+      if(op.action==='edit')fields+=`<div class="editor-actions"><button class="secondary-button quick-edit-button" id="random-edit-button" ${op.target?'':'disabled'}>${icon('spark')}適当に編集する</button></div>`;
+    }
+    if(op.action==='stage'&&op.target){const changes=engine.workingStatus(op.target.repo).unstaged;fields+=`<div class="stage-options"><div class="stage-options-heading">ステージするファイル</div>${changes.length?changes.map(c=>`<label class="stage-file-option"><input type="checkbox" data-stage-file value="${esc(c.file)}" ${(op.values.files||[]).includes(c.file)?'checked':''}><code>${esc(c.file)}</code><span>${c.kind==='added'?'新規':c.kind==='deleted'?'削除':'変更'}</span></label>`).join(''):'<p class="staging-empty">未ステージの変更がありません。先にファイルを編集してください。</p>'}</div>`;}
+    if(op.action==='commit'&&op.target){const changes=engine.workingStatus(op.target.repo).staged;fields+=`<div class="staged-preview"><div class="stage-options-heading">このコミットに含まれる内容 · ${changes.length} 件</div>${changes.length?changes.map(c=>`<details class="file-preview"><summary>${esc(c.file)}</summary><pre>${esc(c.after??'（ファイルの削除）')}</pre></details>`).join(''):'<p class="staging-empty">ステージされた変更がありません。編集 → ステージの順に進めてください。</p>'}</div>`;}
+    const nextInput=mobile.matches&&op.picking&&needsInput(op.action);
+    const instruction=targetsReady()?'選択内容を確認して、次へ進みましょう':pickPrompt(d[op.active])+'してください';
+    panel.innerHTML=`<div class="operation-panel-header"><div>${icon(d.icon)}<h2 id="operation-title" tabindex="-1">${d.label}</h2></div><button class="icon-button" data-cancel-operation aria-label="操作を閉じる">${icon('close')}</button></div>
+      <p class="mobile-pick-instruction mobile-only">${icon('cursor')}<span>${instruction}</span></p>
+      <p class="operation-panel-description">${d.desc}</p><div class="operation-panel-body"><div class="pick-fields ${!d.source||!d.target?'single-field':''}">${d.source?fieldPick('source'):''}${d.source&&d.target?'<span class="pick-between">↓</span>':''}${d.target?fieldPick('target'):''}</div>
+      ${op.action==='fork'?'<div class="pick-hint">'+icon('layers')+'新しいタブにフォークを作成します。</div>':''}<div class="pick-hint">${icon('cursor')}<span>${d.hint}</span></div>${op.action==='pr'?'<p class="cross-workspace-note">上部のワークスペースタブを切り替えても、このパネルは開いたままです。元のタブでリモートの main などを選べます。</p>':''}
+      ${fields}<code class="command-preview" style="white-space:pre-wrap">${esc(commandPreview())}</code><p class="operation-command-note">コマンド例です。リポジトリやブランチを選んでから実行します。</p>${op.error?`<p class="operation-error" role="alert">${esc(op.error)}</p>`:''}
+      <div class="operation-panel-actions"><button class="secondary-button" data-cancel-operation>キャンセル</button><button class="primary-button ${op.action==='delete'?'danger-button':''}" id="${nextInput?'finish-target-picking':'execute-button'}" ${(nextInput?targetsReady():canExecute())?'':'disabled'}>${icon(nextInput?'checkout':op.action==='delete'?'delete':'check')}${nextInput?(op.action==='stage'?'ファイルを選ぶ':'内容を入力する'):executeLabels[op.action]}</button></div></div>`;panel.hidden=false;
+  }
+  function choose(t){
+    if(op){const d=definitions[op.action];let type=d[op.active];if(!matches(type,t)){const other=op.active==='source'?'target':'source';if(d[other]&&matches(d[other],t)){op.active=other;type=d[other];}else{toast(({localBranch:'ローカルのブランチ',remoteBranch:'リモートのブランチ',anyBranch:'ブランチ',localWorktree:'ローカル本体、または作業中のローカルブランチ',localRepo:'ローカル本体',emptyRemote:'未作成のリモート本体',localRef:'ローカル内のブランチか origin の参照',localAny:'ローカル本体かブランチ',remoteAny:'リモート本体かブランチ',remoteRepo:'リモートの本体',empty:'空のローカル'})[type]+'を選んでください。',true);return;}}
+      op[op.active]=clone(t);op.error='';populateFiles();
+      if(op.active==='source'&&d.target)op.active='target';else if(op.active==='target'&&d.source&&!op.source)op.active='source';
+    }
+    selected=t;
+    renderRepos();renderSelection();if(op){renderPanel();revealPickTarget();}
+  }
+  function switchSpace(id){if(!engine.state.spaces.some(s=>s.id===id))return;clearTimeout(flowTimer);$('#flow-overlay').innerHTML='';engine.state.active=id;selected={repo:engine.space.remote,kind:'repo'};render();revealPickTarget();}
+  function showFlow(source,target){
+    clearTimeout(flowTimer);const map=$('#repository-map'),overlay=$('#flow-overlay');overlay.innerHTML='';if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;const elements=$$('[data-ref]',map),find=t=>elements.find(el=>same(JSON.parse(el.dataset.ref),t));let a=find(source),b=find(target);
+    if(!a&&source?.repo)a=find({repo:source.repo,kind:'repo'});if(!b&&target?.repo)b=find({repo:target.repo,kind:'repo'});if(!a||!b)return;
+    const rect=map.getBoundingClientRect(),ar=a.getBoundingClientRect(),br=b.getBoundingClientRect(),x1=ar.left+ar.width/2-rect.left,y1=ar.top+ar.height/2-rect.top,x2=br.left+br.width/2-rect.left,y2=br.top+br.height/2-rect.top;
+    overlay.setAttribute('viewBox',`0 0 ${rect.width} ${rect.height}`);overlay.innerHTML=`<circle class="flow-dot" cx="${x1}" cy="${y1}" r="4.5" style="--flow-dx:${x2-x1}px;--flow-dy:${y2-y1}px"/>`;
+    flowTimer=setTimeout(()=>overlay.innerHTML='',500);
+  }
+  function executeOperation(){if(!op||!canExecute())return;const request=clone(op),before=snapshot();
+    try{const result=engine.execute(request.action,request.source,request.target,request.values);
+      if(result.conflicts){resolveConflicts(result,request,before);return;}
+      remember(before);closeOperation();if(request.action==='fork')selected={repo:engine.space.remote,kind:'repo'};else if(['clone','branch','checkout','commit'].includes(request.action))selected={repo:engine.space.local,kind:'branch',branch:engine.repo(engine.space.local).head};
+      render();toast(result.title);showFlow(request.source,request.target);requestSetupAction();
+    }catch(error){engine.state=before;op.error=error.message;if(needsInput(op.action))op.picking=false;renderPanel();}
+  }
+  function modalOpen(title,body,footer=''){if(document.body.classList.contains('mobile-tools-open'))toolbox(false);lastFocus=document.activeElement;$('#modal').classList.remove('start-chooser','required-start');$('#modal').innerHTML=`<div class="modal-heading"><h2 id="modal-title">${title}</h2><button class="icon-button" data-close-modal aria-label="閉じる">${icon('close')}</button></div>${body}${footer?`<div class="modal-footer">${footer}</div>`:''}`;$('#modal-backdrop').hidden=false;$('#modal').focus({preventScroll:true});}
+  function modalClose(){if(startChoiceRequired)return;const conflict=!!$('#resolve-conflicts');if(conflict&&pendingConflict){engine.state=pendingConflict.before;pendingConflict=null;render();}$('#modal-backdrop').hidden=true;document.body.classList.remove('start-choosing');if(lastFocus?.isConnected)lastFocus.focus({preventScroll:true});}
+  function showStartChooser(){
+    closeOperation();startChoiceRequired=!engine.state.onboardingVersion;document.body.classList.add('start-choosing');
+    modalOpen('開始地点を選択',`<p class="start-intro">プロジェクトの場所に応じて、必要な初期設定を順に案内します。</p><div class="start-choices"><button class="start-choice" data-start="local"><span class="start-choice-icon">${icon('monitor')}</span><span class="start-choice-label">自分のPCにある<br>プロジェクトから</span><span class="start-choice-detail">Git管理を始めて、GitHubに公開する</span><span class="start-choice-next">git init ${icon('checkout')}</span></button><button class="start-choice" data-start="github"><span class="start-choice-icon">${icon('cloud')}</span><span class="start-choice-label">GitHubにある<br>プロジェクトから</span><span class="start-choice-detail">GitHubのリポジトリをPCに複製する</span><span class="start-choice-next">git clone ${icon('checkout')}</span></button></div><p class="start-model-note">サンプルのプロジェクトを使用します。</p>${!engine.state.entryPending?'<p class="start-model-note">これまでの作業はタブに残して、新しい練習を始めます。</p>':''}`);
+    $('#modal').classList.add('start-chooser');$('#modal').classList.toggle('required-start',startChoiceRequired);
+  }
+  function requestSetupAction(){const action=engine.requiredAction();if(!action)return;selected=['clone','connect'].includes(action)?{repo:engine.space.remote,kind:'repo'}:action==='create-remote'?null:defaultSelection();openOperation(action);}
+  function startProject(kind){const before=snapshot();engine.startProject(kind,{replace:!!engine.state.entryPending});startChoiceRequired=false;modalClose();remember(before);selected=defaultSelection();render();requestSetupAction();}
+  let pendingConflict=null;
+  function resolveConflicts(result,request,before){
+    pendingConflict={request,before,result};renderRepos();
+    modalOpen('変更がぶつかりました',`<p>同じファイルが両方で変更されています。取り込む内容を選んで、マージを完了しましょう。</p><p class="modal-subtitle">このモデルはファイル単位の3方向マージです。実際のGitは行単位でも統合します。キャンセルすると操作前に戻ります。</p>${result.conflicts.map((c,i)=>`<div class="conflict-card"><h3>${esc(c.file)}</h3><div class="conflict-choices"><label><input type="radio" name="conflict-${i}" value="target" checked> 統合先を残す · ${esc(result.to)}<pre>${esc(c.target??'（削除）')}</pre></label><label><input type="radio" name="conflict-${i}" value="source"> 取り込み元を使う · ${esc(result.from)}<pre>${esc(c.source??'（削除）')}</pre></label></div></div>`).join('')}`,`<button class="secondary-button" data-close-modal>操作を取り消す</button><button class="primary-button" id="resolve-conflicts">${icon('merge')}解決してマージ</button>`);
+  }
+  function finishConflict(){if(!pendingConflict)return;const {request,before,result}=pendingConflict;const resolutions={};result.conflicts.forEach((c,i)=>{resolutions[c.file]=$(`input[name="conflict-${i}"]:checked`).value;});engine.state=clone(before);
+    try{const done=engine.execute(request.action,request.source,request.target,{...request.values,resolutions});if(done.conflicts)throw new Error('すべての競合を解決してください。');remember(before);pendingConflict=null;$('#modal-backdrop').hidden=true;closeOperation();render();toast(done.title);}catch(e){engine.state=clone(before);pendingConflict=null;$('#modal-backdrop').hidden=true;render();toast(e.message,true);}
+  }
+  function showCommit(id){const c=engine.state.commits[id];if(!c)return;modalOpen('コミットの中身',`<span class="commit-detail-id">${esc(c.id)}</span><h3 style="margin:0 0 12px">${esc(c.message)}</h3><p>親コミット：${c.parents.length?c.parents.map(p=>`<code>${esc(p)}</code>`).join(' + '):'なし（最初のコミット）'}</p><p class="modal-subtitle">${c.parents.length===2?'2つの履歴がここで合流しています。':'各コミットは、その時点のファイルのスナップショットです。'}</p>${Object.entries(c.files).map(([name,content])=>`<details class="file-preview" open><summary>${esc(name)}</summary><pre>${esc(content)}</pre></details>`).join('')}`,`<button class="primary-button" data-close-modal>わかりました</button>`);}
+  function help(){
+    const layout=mobile.matches?'リモートとローカルは上下に並びます。画面下のボタンでそれぞれへ移動できます。':'左がリモート、右がローカル。操作は右端にまとまっています。';
+    const start=mobile.matches?'画面下の「操作する」から「フェッチ」などをタップ。':'右の「フェッチ」などをクリック。';
+    modalOpen('使い方',`<p>${layout}</p><ol><li><strong>操作を選択。</strong> ${start}</li><li><strong>対象を指定。</strong> ポップアップの選択欄を押し、画面上のブランチやリポジトリ本体をタップ。</li><li><strong>実行。</strong> 作業フォルダ・ステージ・履歴・操作ログで結果を確認します。</li></ol>${mobile.matches?'<p>対象を選ぶ間はパネルが小さくなります。名前や内容が必要な操作は「内容を入力する」、ステージは「ファイルを選ぶ」で次へ進めます。</p>':''}<h3>編集からコミットまで</h3><p><strong>ファイルを編集</strong>して保存したら、<strong>ステージ</strong>で次のコミットに含めるファイルを選びます。最後に<strong>コミット</strong>でメッセージを付け、ステージ時点の内容を記録します。ステージ後の再編集は、もう一度ステージするまで含まれません。</p><h3>取得と統合</h3><p>リモート main → ローカル本体に<strong>フェッチ</strong>。<code>origin/main</code> だけが進みます。手元の <code>main</code> に切り替えて<strong>プル</strong>すると、ブランチと作業フォルダにも変更が入ります。</p><h3>フォークとプルリクエスト</h3><p>フォークすると上部にタブが増えます。クローン → ブランチ作成 → 編集 → ステージ → コミット → 公開の順に進めます。PRの作成中に元のタブへ切り替え、元の main に提案できます。</p><p class="modal-subtitle">操作はブラウザ内で完結します。実際のリポジトリは変更しません。</p>`,`<button class="secondary-button" id="empty-demo">クローンの練習</button><button class="primary-button" data-close-modal>閉じる</button>`);
+  }
+  function glossary(){const terms=[['repository','履歴とブランチを管理する場所。リモートと手元のローカルは別々です。'],['commit','その時点のスナップショットと、親へのつながり。丸で表示します。'],['branch','コミットを指す名前。コミットすると、そのブランチの参照が進みます。'],['HEAD','今作業しているブランチを指します。クリックによる選択では動きません。'],['origin','クローン元のリモートに付く標準的な名前。フォーク先をクローンすると、そのフォークが origin です。'],['origin/main','最後に取得したリモート main の状態を、手元に記録した参照。実物とずれることがあります。'],['upstream','ローカルブランチが追跡する相手。push -u で設定します。フォーク元リモートの別名 upstream とは区別します。'],['fetch / pull','fetch は取得。pull は取得して統合。このモデルはマージ方式です。'],['fork / clone','fork はGitHub上で別の所有者に複製。clone は手元へ複製します。'],['pull request','公開済みの変更を取り込んでもらう提案。作成とマージは別の操作です。']];modalOpen('Gitのことば',`<dl class="definition-list">${terms.map(([t,d])=>`<dt>${t}</dt><dd>${d}</dd>`).join('')}</dl>`,`<button class="primary-button" data-close-modal>閉じる</button>`);}
+  function modelInfo(){
+    modalOpen('この学習モデルについて',`<p>コミットの親子関係とファイルのスナップショットを持つ、ブラウザ内のGitシミュレーターです。</p><h3>編集・ステージ・コミット</h3><p>作業フォルダ、ステージ、コミットを分けています。編集を保存してもステージは変わりません。ステージでは選んだファイルの現在の内容を記録し、コミットではその内容だけを履歴に残します。</p><p>ステージ後に再編集すると、新しい編集は未ステージのまま残ります。もう一度ステージすると、次のコミットに含める内容が更新されます。</p><h3>再現していること</h3><p>ブランチ参照、HEAD、リモート追跡参照、fast-forward、2つの親を持つマージ、プッシュ拒否、フォークとPRを再現します。</p><h3>理解しやすくするための簡略化</h3><p>ステージと競合判定はファイル単位です。競合解決では片方の内容を選びます。プルは fetch + merge、シンクは pull + push で固定しています。rebase、認証、権限、通信エラー、行単位のステージは扱いません。未コミットの変更がある場合、ブランチの切り替えと統合は中止します。</p><p>「共同編集者が更新」は、別の人によるリモートへのコミットを表します。PRマージは fast-forward が可能なら参照を進め、分岐していればマージコミットを作ります。</p><h3>公式ドキュメント</h3><p><a href="https://git-scm.com/docs/git-add" target="_blank" rel="noopener noreferrer">Git add</a> · <a href="https://git-scm.com/docs/git-commit" target="_blank" rel="noopener noreferrer">Git commit</a> · <a href="https://git-scm.com/docs/git-fetch" target="_blank" rel="noopener noreferrer">Git fetch</a> · <a href="https://git-scm.com/docs/git-pull" target="_blank" rel="noopener noreferrer">Git pull</a> · <a href="https://git-scm.com/docs/git-push" target="_blank" rel="noopener noreferrer">Git push</a></p><p class="modal-subtitle">状態はこのブラウザに保存されます。1つ戻す／やり直すの履歴は、画面を開いている間のみ保持します。file:// での保存可否はブラウザの設定に依存します。</p>`,`<button class="primary-button" data-close-modal>閉じる</button>`);
+  }
+  function history(direction){const from=direction==='undo'?undo:redo,to=direction==='undo'?redo:undo;if(!from.length)return;to.push(snapshot());engine.state=from.pop();closeOperation();selected=null;render();if(!engine.state.onboardingVersion)showStartChooser();else requestSetupAction();toast(direction==='undo'?'1つ前の状態に戻しました':'操作をやり直しました');}
+  function newDemo(empty=false){const before=snapshot();engine.demo(empty);remember(before);closeOperation();selected={repo:engine.space.remote,kind:'repo'};render();toast(empty?'クローン練習用の空のローカルを用意しました':'新しい練習タブを用意しました');}
+  function mergePR(id){const pr=engine.state.prs.find(p=>p.id===id);if(!pr)return;modalOpen(`PR #${id} をマージ`, `<h3>${esc(pr.title)}</h3><p><code>${esc(engine.repo(pr.source.repo).name)}:${esc(pr.source.branch)}</code> から <code>${esc(engine.repo(pr.target.repo).name)}:${esc(pr.target.branch)}</code> に統合します。</p><p>リモートの履歴が更新されます。ローカルには、自分でプルするまで反映されません。</p>`,`<button class="secondary-button" data-close-modal>キャンセル</button><button class="primary-button" data-confirm-pr="${id}">${icon('merge')}マージする</button>`);}
+  document.addEventListener('click',event=>{const el=event.target.closest('button,a,[data-commit]');if(!el)return;
+    if(el.id==='random-edit-button'){fillSampleEdit();return;}
+    if(el.id==='guide-hide'||el.id==='guide-show'){setGuideVisible(el.id==='guide-show');return;}
+    if(el.dataset.start){startProject(el.dataset.start);return;}
+    if(el.dataset.open){if(el.dataset.workingRepo)selected={repo:el.dataset.workingRepo,kind:'repo'};openOperation(el.dataset.open);return;}
+    if(el.dataset.ref){choose(JSON.parse(el.dataset.ref));return;}
+    if(el.dataset.space){switchSpace(el.dataset.space);return;}
+    if(el.dataset.commit){showCommit(el.dataset.commit);return;}
+    if(el.dataset.slot){op.active=el.dataset.slot;if(mobile.matches)op.picking=true;renderRepos();renderPanel();revealPickTarget();return;}
+    if(el.id==='finish-target-picking'){op.picking=false;renderPanel();panel.scrollTop=0;$('[data-input]',panel)?.focus({preventScroll:true});return;}
+    if(el.id==='mobile-tools'){toolbox(true);return;}
+    if(el.id==='mobile-tool-close'){toolbox(false);return;}
+    if(el.id==='mobile-remote'||el.id==='mobile-local'){scrollToRepo(el.id==='mobile-remote'?'remote':'local');return;}
+    if(el.hasAttribute('data-cancel-operation')){const a=op?.action;closeOperation();(mobile.matches?$('#mobile-tools'):$(`[data-open="${a}"]`))?.focus({preventScroll:true});return;}
+    if(el.hasAttribute('data-close-modal')){modalClose();return;}
+    if(el.dataset.mergePr){mergePR(Number(el.dataset.mergePr));return;}
+    if(el.dataset.confirmPr){const id=Number(el.dataset.confirmPr),before=snapshot(),request={action:'merge-pr',values:{id}};try{const result=engine.execute('merge-pr',null,null,{id});if(result.conflicts){resolveConflicts(result,request,before);return;}remember(before);modalClose();render();toast(result.title);}catch(error){engine.state=before;modalClose();toast(error.message,true);}return;}
+    if(el.dataset.guide){if(engine.requiredAction()){requestSetupAction();return;}const action=el.dataset.guide;closeOperation();if(['edit','stage','commit'].includes(action))selected=defaultSelection();else if(action==='checkout'&&engine.space.local){selected={repo:engine.space.local,kind:'branch',branch:'main'};}else selected=action==='pull'?{repo:engine.space.remote,kind:'branch',branch:'main'}:{repo:engine.space.remote,kind:'repo'};openOperation(action);return;}
+    switch(el.id){case'execute-button':executeOperation();break;case'resolve-conflicts':finishConflict();break;case'help-button':help();break;case'glossary-button':glossary();break;case'model-button':modelInfo();break;case'undo-button':history('undo');break;case'redo-button':history('redo');break;case'scenario-button':showStartChooser();break;case'empty-demo':modalClose();newDemo(true);openOperation('clone');break;case'reset-button':modalOpen('最初の状態に戻しますか？','<p>すべてのワークスペースとPRをリセットし、開始地点の選択からやり直します。この画面を開いている間は「1つ戻す」で復元できます。</p>','<button class="secondary-button" data-close-modal>キャンセル</button><button class="primary-button danger-button" id="confirm-reset">最初の状態に戻す</button>');break;case'confirm-reset':{const before=snapshot();engine=new GitEngine();engine.state.entryPending=true;remember(before);modalClose();closeOperation();selected=defaultSelection();render();showStartChooser();break;}}
+  });
+  document.addEventListener('input',event=>{const name=event.target.dataset.input;if(!name||!op)return;op.values[name]=event.target.value;op.error='';if(name==='file'&&op.target&&['edit','remote-commit'].includes(op.action)){const r=engine.repo(op.target.repo),files=op.action==='edit'?r.workingFiles:engine.state.commits[engine.ref(op.target).id].files;if(Object.hasOwn(files,op.values.file)){op.values.content=files[op.values.file];$('[data-input="content"]',panel).value=op.values.content;}}const preview=$('.command-preview',panel);if(preview)preview.textContent=commandPreview();$('.operation-error',panel)?.remove();});
+  document.addEventListener('change',event=>{if(!op||!event.target.hasAttribute('data-stage-file'))return;op.values.files=$$('[data-stage-file]:checked',panel).map(input=>input.value);const execute=$('#execute-button');if(execute)execute.disabled=!canExecute();const preview=$('.command-preview',panel);if(preview)preview.textContent=commandPreview();});
+  document.addEventListener('keydown',event=>{
+    if(document.body.classList.contains('mobile-tools-open')){if(event.key==='Escape'){event.preventDefault();toolbox(false);}else if(event.key==='Tab'){const items=$$('button,a[href]',$('#toolbox')).filter(e=>!e.disabled),first=items[0],last=items.at(-1);if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}}return;}
+    if(!$('#modal-backdrop').hidden){if(event.key==='Escape'){event.preventDefault();modalClose();return;}if(event.key==='Tab'){const items=$$('button,a[href],input,select,textarea,[tabindex="0"]',$('#modal')).filter(e=>!e.disabled),first=items[0],last=items.at(-1);if(!items.length)return;if(event.shiftKey&&(document.activeElement===first||document.activeElement===$('#modal'))){event.preventDefault();last.focus();}else if(!event.shiftKey&&(document.activeElement===last||document.activeElement===$('#modal'))){event.preventDefault();first.focus();}}return;}
+    if(event.key==='Escape'&&op){const action=op.action;closeOperation();(mobile.matches?$('#mobile-tools'):$(`[data-open="${action}"]`))?.focus({preventScroll:true});}
+    if(event.target.matches('[data-commit]')&&['Enter',' '].includes(event.key)){event.preventDefault();showCommit(event.target.dataset.commit);}
+    if(event.target.matches('[data-space]')&&['ArrowLeft','ArrowRight','Home','End'].includes(event.key)){event.preventDefault();const tabs=$$('[data-space]'),i=tabs.indexOf(event.target),next=event.key==='Home'?0:event.key==='End'?tabs.length-1:(i+(event.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;switchSpace(tabs[next].dataset.space);$$('[data-space]')[next].focus();}
+  });
+  $('#modal-backdrop').addEventListener('click',event=>{if(event.target.id==='modal-backdrop')modalClose();});
+  $('#mobile-tool-backdrop').addEventListener('click',()=>toolbox(false));
+  window.addEventListener('scroll',fitToolbox,{passive:true});
+  window.addEventListener('resize',fitToolbox);
+  mobile.addEventListener('change',()=>{toolbox(false,false);if(op){op.picking=mobile.matches&&(!targetsReady()||!needsInput(op.action));renderPanel();}});
+  $$('[data-icon]').forEach(el=>el.innerHTML=icon(el.dataset.icon));
+  render();fitToolbox();if(!engine.state.onboardingVersion)showStartChooser();else requestSetupAction();if(loadFailed)toast('保存データを読み込めなかったため、開始地点の選択から開きました。',true);
+})();
+
+</script>
+</body>
+</html>

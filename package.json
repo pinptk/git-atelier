@@ -1,0 +1,16 @@
+{
+  "name": "git-atelier",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ブラウザで動かして学ぶGitシミュレーター",
+  "scripts": {
+    "start": "node server.js",
+    "start:lan": "node server.js --host=0.0.0.0",
+    "build": "node build.js",
+    "test": "node --test tests/git-engine.test.js",
+    "test:browser": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1"
+  }
+}
